@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Assessments — The GrowthX System</title>
+<meta name="description" content="39 scenario-based questions across 7 modules. Test whether you absorbed the principles of AI-led growth.">
+<script src="../theme.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..680;1,14..32,400..680&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared.css">
+<style>:root { --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace; }</style>
+<style>
+/* ── Progress Bar ── */
+.progress-bar-wrap {
+  position: fixed;
+  top: 56px;
+  left: 0; right: 0;
+  z-index: 99;
+  height: 3px;
+  background: var(--border-subtle);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 0 2px 2px 0;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] .progress-bar-fill,
+:root:not([data-theme]) .progress-bar-fill {
+  background: #c9a44a;
+}
+
+:root .progress-bar-fill {
+  background: #996f1a;
+}
+
+[data-theme="dark"] .progress-bar-fill {
+  background: #c9a44a;
+}
+
+.progress-bar-label {
+  position: fixed;
+  top: 59px;
+  right: clamp(16px, 4vw, 32px);
+  z-index: 99;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 450;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  padding: 4px 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.progress-bar-label.visible {
+  opacity: 1;
+}
+
+/* ── Hero Stats ── */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-stat-value {
+  font-size: 28px;
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+.hero-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* ── Module Pills ── */
+.module-filter {
+  padding: 0 clamp(16px, 4vw, 32px);
+  max-width: var(--max-width);
+  margin: 0 auto 48px;
+}
+
+.module-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.module-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 450;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  background: var(--secondary);
+  border: 1px solid transparent;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.module-pill:hover {
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.module-pill.active {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+/* ── Questions ── */
+.questions-container {
+  max-width: var(--content-inset);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px) 80px;
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.question-card:hover {
+  border-color: var(--text-muted);
+}
+
+.question-card.answered {
+  opacity: 1;
+}
+
+.question-card.answered:hover {
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+.question-module-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.question-text {
+  font-size: 17px;
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  line-height: 1.45;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 20px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.option-btn:hover:not(.locked) {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  background: var(--surface-raised);
+}
+
+.option-btn .option-letter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  background: var(--secondary);
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.option-btn:hover:not(.locked) .option-letter {
+  color: var(--text-primary);
+}
+
+.option-btn .option-text {
+  padding-top: 3px;
+}
+
+/* ── Answer States ── */
+.option-btn.locked {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.option-btn.correct {
+  border-color: #2b8a3e;
+  background: rgba(43, 138, 62, 0.06);
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+[data-theme="dark"] .option-btn.correct {
+  background: rgba(43, 138, 62, 0.1);
+}
+
+.option-btn.correct .option-letter {
+  background: #2b8a3e;
+  color: #fff;
+}
+
+.option-btn.incorrect {
+  border-color: #c92a2a;
+  background: rgba(201, 42, 42, 0.06);
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+[data-theme="dark"] .option-btn.incorrect {
+  background: rgba(201, 42, 42, 0.1);
+}
+
+.option-btn.incorrect .option-letter {
+  background: #c92a2a;
+  color: #fff;
+}
+
+/* ── Explanation ── */
+.explanation {
+  margin-top: 20px;
+  padding: 20px 24px;
+  background: var(--secondary);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--foreground);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.explanation.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.explanation-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.explanation-text {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+/* ── Module Score ── */
+.module-score {
+  text-align: center;
+  padding: 32px 24px;
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: none;
+}
+
+.module-score.visible {
+  display: block;
+}
+
+.module-score-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.module-score-value {
+  font-size: 32px;
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+
+.module-score-value span {
+  font-size: 18px;
+  font-weight: 480;
+  color: var(--text-muted);
+}
+
+/* ── Final Results ── */
+.results-panel {
+  max-width: var(--content-inset);
+  margin: 0 auto 80px;
+  padding: 0 clamp(16px, 4vw, 32px);
+  display: none;
+}
+
+.results-panel.visible {
+  display: block;
+}
+
+.results-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.results-overline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.results-score {
+  font-size: 64px;
+  font-weight: 680;
+  letter-spacing: -0.06em;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.results-score span {
+  font-size: 28px;
+  font-weight: 480;
+  color: var(--text-muted);
+}
+
+.results-message {
+  font-size: 17px;
+  font-weight: 520;
+  color: var(--text-secondary);
+  letter-spacing: -0.03em;
+  line-height: 1.5;
+  max-width: 480px;
+  margin: 16px auto 36px;
+}
+
+.results-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.results-module {
+  padding: 16px 12px;
+  background: var(--secondary);
+  border-radius: var(--radius);
+}
+
+.results-module-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.results-module-score {
+  font-size: 20px;
+  font-weight: 680;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.results-module-score span {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-muted);
+}
+
+/* ── Animations (reduced motion safe) ── */
+@media (prefers-reduced-motion: reduce) {
+  .explanation {
+    transition: none;
+  }
+  .progress-bar-fill {
+    transition: none;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .question-card {
+    padding: 24px 20px;
+  }
+  .option-btn {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+  .module-pills {
+    gap: 6px;
+  }
+  .module-pill {
+    padding: 5px 11px;
+    font-size: 11px;
+  }
+  .hero-stats {
+    gap: 20px;
+  }
+  .hero-stat-value {
+    font-size: 22px;
+  }
+  .results-card {
+    padding: 32px 20px;
+  }
+  .results-score {
+    font-size: 48px;
+  }
+  .results-breakdown {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .question-card {
+    padding: 20px 16px;
+  }
+  .hero-stat-divider {
+    display: none;
+  }
+  .hero-stats {
+    gap: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/growthx-logo-dark.svg" alt="GrowthX" width="120" height="20">
+      <span class="nav-logo-divider" aria-hidden="true"></span>
+      <span class="nav-logo-label">Self-Assessments</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Hub</a>
+      <a href="../system/index.html">Landing Page</a>
+      <a href="../inventory/index.html">Inventory</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">GrowthX.ai</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="progress-bar-wrap" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="39">
+  <div class="progress-bar-fill"></div>
+</div>
+<div class="progress-bar-label" aria-live="polite">0 / 39</div>
+
+<header class="hero">
+  <p class="hero-label reveal">Self-Assessments</p>
+  <h1 class="reveal reveal-d1">Test your thinking.</h1>
+  <p class="hero-desc reveal reveal-d2">39 scenario-based questions across 7 modules. Each tests whether you absorbed the principles — not trivia. Pick a module or take them all.</p>
+  <div class="hero-stats reveal reveal-d3">
+    <div class="hero-stat">
+      <span class="hero-stat-value">39</span>
+      <span class="hero-stat-label">Questions</span>
+    </div>
+    <span class="hero-stat-divider" aria-hidden="true"></span>
+    <div class="hero-stat">
+      <span class="hero-stat-value">7</span>
+      <span class="hero-stat-label">Modules</span>
+    </div>
+    <span class="hero-stat-divider" aria-hidden="true"></span>
+    <button class="btn btn-primary" id="start-all-btn">Start All</button>
+  </div>
+</header>
+
+<div class="module-filter">
+  <div class="module-pills" role="tablist" aria-label="Filter by module" id="module-pills"></div>
+</div>
+
+<div class="questions-container" id="questions-container"></div>
+<div class="results-panel" id="results-panel"></div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../assets/growthx-logo-dark.svg" alt="GrowthX" width="100" height="16">
+      <span>&copy; 2026 GrowthX</span>
+    </div>
+    <div class="footer-links">
+      <a href="../index.html">Hub</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">GrowthX.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ── Question Data ── */
+  var questions = [
+    {module:1,question:1,text:"Your CEO just forwarded a Gartner stat about AI and asks: \"Should we buy an AEO tool?\" Based on the GrowthX System philosophy, what\u2019s the best first response?",options:[{letter:"A",text:"Yes \u2014 the faster we get a dashboard, the faster we can report on AI visibility to the board."},{letter:"B",text:"Let me evaluate the top three AEO tools and recommend one by Friday."},{letter:"C",text:"Before we buy anything, let\u2019s understand the shift in buyer behavior and what we need to change about how we show up \u2014 tools come after the thinking."},{letter:"D",text:"AEO is mostly hype. Let\u2019s wait 12 months until the space matures."}],correct:"C",explanation:"The system teaches \u201Cworkflow before technology\u201D \u2014 understanding the buyer behavior shift and developing the right mental models comes before any tool purchase. Buying a tool without understanding the discipline it serves is one of the most common mistakes Marcel sees across 200+ CMO conversations."},
+    {module:1,question:2,text:"The GrowthX System argues that AI has caused the biggest shift in buying behavior since the internet. What is the most accurate description of this shift?",options:[{letter:"A",text:"Buyers now make purchases directly inside AI chat interfaces, bypassing websites entirely."},{letter:"B",text:"Buyers are using AI answers like word-of-mouth from a trusted expert, forming shortlists and opinions during 15\u201320 minute research sessions before ever visiting your site."},{letter:"C",text:"AI engines have replaced Google as the primary source of web traffic for most B2B companies."},{letter:"D",text:"Buyers no longer trust human salespeople and exclusively rely on AI for purchase decisions."}],correct:"B",explanation:"The system\u2019s core insight is that buyers treat AI recommendations like advice from an expert friend. Transactions still happen on websites (AI-direct purchases are under 1%), but the first \u201Csales call\u201D now happens inside an AI answer. This reframes the entire marketing challenge."},
+    {module:1,question:3,text:"The system identifies three audiences that brands must now think about. Which combination is correct?",options:[{letter:"A",text:"Buyers, search engines, and social media algorithms"},{letter:"B",text:"Buyers, AI engines (ChatGPT, Claude, etc.), and training bots that crawl the internet"},{letter:"C",text:"Buyers, industry analysts, and AI-powered sales tools"},{letter:"D",text:"Buyers, AI engines, and your internal stakeholders who use AI"}],correct:"B",explanation:"This three-audience model is foundational. Buyers still transact on websites, AI engines retrieve and serve answers from pages, and training bots crawl pages to build the models that power those engines. Your strategy must serve all three \u2014 and they each have different needs."},
+    {module:1,question:4,text:"A colleague argues: \u201CThis system is really about learning specific AI tools and prompts.\u201D How would you correct that based on what Module 01 teaches?",options:[{letter:"A",text:"Actually, it\u2019s about specific tools AND prompts \u2014 you need both."},{letter:"B",text:"It\u2019s about the mental models, frameworks, and principles behind AI-led growth \u2014 the thinking, not the tools. Tools change constantly; the thinking endures."},{letter:"C",text:"It\u2019s about learning how to game AI algorithms to get more mentions."},{letter:"D",text:"It\u2019s less about tools and more about hiring the right AI-native team members."}],correct:"B",explanation:"The system is explicitly framed as teaching thinking over tools. Marcel\u2019s approach comes from 15+ years of building organic growth engines across IBM, HashiCorp, ServiceTitan, and Scale AI \u2014 the playbook endures even as tools constantly evolve."},
+    {module:1,question:5,text:"According to the system, even if 70% of your clicks disappear, why might that still be a net positive for your business?",options:[{letter:"A",text:"Because AI tools will pay you for the content they cite."},{letter:"B",text:"Because the remaining traffic from AI referrals converts at 3\u20135x higher rates, and brand lift increases \u2014 making the math work out to a net positive."},{letter:"C",text:"Because you\u2019ll save money on server costs from handling less traffic."},{letter:"D",text:"Because Google will compensate you through higher ad revenue."}],correct:"B",explanation:"This is one of the system\u2019s most counterintuitive and important insights. The quality of traffic shifts dramatically \u2014 AI-referred visitors have higher intent, longer engagement, and significantly better conversion rates. The game changes, but the math can actually improve."},
+
+    {module:2,question:1,text:"Your VP of Marketing says: \u201CWe\u2019re crushing it in AI visibility \u2014 we show up when people search our brand name vs. our top competitor.\u201D Why does the system say this is a misleading metric?",options:[{letter:"A",text:"Because branded queries don\u2019t test real commercial intent \u2014 of course you show up when someone already knows your name. What matters is visibility during the evaluation stage within your buying categories."},{letter:"B",text:"Because competitor comparison queries are too easy to win."},{letter:"C",text:"Because branded queries only work in ChatGPT, not other engines."},{letter:"D",text:"Because AI engines don\u2019t actually show branded comparison results."}],correct:"A",explanation:"The system is emphatic about this: if you dump a mix of branded, awareness, and evaluation-stage queries into a tracking tool, your data is completely dirty. Meaningful measurement happens within evaluation-stage queries, within your specific buying categories \u2014 where buyers are forming shortlists and you haven\u2019t been asked for by name."},
+    {module:2,question:2,text:"The system introduces four dimensions for measuring AI visibility: Presence, Reputation, Alignment, and Influence. What does \u201CAlignment\u201D specifically measure?",options:[{letter:"A",text:"Whether your site\u2019s technical SEO is aligned with AI crawler requirements."},{letter:"B",text:"How closely AI engines describe your brand compared to how you want to be described \u2014 closing the gap between your positioning and AI\u2019s perception of you."},{letter:"C",text:"Whether your content strategy is aligned with your company\u2019s quarterly OKRs."},{letter:"D",text:"Whether all your marketing channels are sending consistent messaging."}],correct:"B",explanation:"Alignment is about the gap between three realities: how you think you should be perceived, how the market actually perceives you, and what AI \u201Cthinks\u201D is the truth. Closing that gap through strategic content is one of the most direct levers you have."},
+    {module:2,question:3,text:"Marcel uses a specific mental model from traditional marketing to explain how AEO measurement should work. What is it?",options:[{letter:"A",text:"The marketing funnel (awareness \u2192 consideration \u2192 decision)"},{letter:"B",text:"Brand surveys \u2014 like how you\u2019d measure the impact of a Super Bowl ad through recall, perception, and alignment studies"},{letter:"C",text:"Net Promoter Score (NPS) surveys sent to customers"},{letter:"D",text:"A/B testing landing page variations"}],correct:"B",explanation:"This analogy makes AEO measurement click. Just as you can\u2019t directly measure a billboard\u2019s ROI but can survey for recall and perception, AI visibility requires measuring whether AI \u201Crecalls\u201D your brand, positions you correctly, and describes you in aligned ways. It\u2019s a brand-survey mental model applied to a new channel."},
+    {module:2,question:4,text:"You\u2019re auditing a client\u2019s AI visibility setup and find they\u2019re tracking 1,000 prompts across awareness, education, and evaluation stages. What\u2019s wrong with this approach?",options:[{letter:"A",text:"1,000 prompts is too many \u2014 you should only track 50."},{letter:"B",text:"The data is dirty because it mixes stages where brands naturally don\u2019t appear (awareness/education) with stages where they do (evaluation). You need to scope prompts tightly to commercial intent within specific buying categories."},{letter:"C",text:"They should only track prompts in ChatGPT since it has the largest market share."},{letter:"D",text:"Nothing is wrong \u2014 more prompts means more data."}],correct:"B",explanation:"Marcel is adamant about this: if you ask \u201CWhat is AI?\u201D \u2014 engines won\u2019t recommend tools. Mixing those results with commercial-intent queries (where brands do appear) poisons your entire dataset. Discipline in scoping what you measure is the difference between signal and noise."},
+    {module:2,question:5,text:"The system explains how AI engines work in three layers. A new client discovers their LLM referral traffic is zero despite strong organic rankings. What\u2019s the most likely culprit based on the system\u2019s teaching?",options:[{letter:"A",text:"Their content isn\u2019t good enough to be cited."},{letter:"B",text:"They need to buy a better AEO tool."},{letter:"C",text:"A technical issue \u2014 like a CDN rule, Cloudflare setting, or robots.txt configuration \u2014 is blocking AI crawlers from accessing their site."},{letter:"D",text:"AI engines only cite pages from the top 100 domains globally."}],correct:"C",explanation:"Marcel shares that this is shockingly common \u2014 over 50% of companies they audit have fundamental crawlability or indexing issues. A company can rank beautifully in Google but be completely invisible to AI engines because a Cloudflare rule or CDN configuration is blocking the crawlers that feed retrieval and training pipelines."},
+    {module:2,question:6,text:"According to the system, approximately what percentage of training data for frontier AI models comes from crawled web pages?",options:[{letter:"A",text:"10\u201320%"},{letter:"B",text:"30\u201340%"},{letter:"C",text:"60\u201382%"},{letter:"D",text:"95\u2013100%"}],correct:"C",explanation:"This stat grounds the entire system. If 60\u201382% of pre-training data is crawled pages, and 100% of real-time retrieval comes from pages, then your website and its content are the atomic unit of AI visibility. This is why the system puts website pages at the center of everything."},
+
+    {module:3,question:1,text:"A marketing manager says: \u201CLet\u2019s figure out what keywords have the highest volume and create content for those.\u201D What would the GrowthX content strategy framework say is wrong with this approach?",options:[{letter:"A",text:"Keyword volume data is always inaccurate."},{letter:"B",text:"You should start with your audience, not keywords. Understanding your audience\u2019s daily reality, pain points, and jobs-to-be-done determines what content to create \u2014 keywords are a signal, not the strategy."},{letter:"C",text:"You should only create content that AI engines specifically request."},{letter:"D",text:"High-volume keywords are too competitive for most companies."}],correct:"B",explanation:"The system is built on an audience-first philosophy. Marcel repeatedly emphasizes: \u201CEverything we believe in is having this audience-first mindset to your content strategy.\u201D Keywords can inform tactics, but strategy starts with deeply understanding who you serve, what their journey looks like, and what would genuinely help them."},
+    {module:3,question:2,text:"The system identifies four qualities that LLMs reward in content. Which combination is correct?",options:[{letter:"A",text:"Keyword-dense, frequently published, short-form, and trending"},{letter:"B",text:"Well-researched and well-attributed, comprehensive, brand-reputable, and fresh/current"},{letter:"C",text:"AI-optimized, schema-marked-up, interlinked, and gated"},{letter:"D",text:"Viral, emotionally engaging, controversy-driven, and algorithm-friendly"}],correct:"B",explanation:"These four factors \u2014 research/attribution, comprehensiveness, reputation, and freshness \u2014 are the consistent signals Marcel\u2019s team sees across publishing millions of words for 70+ customers. They\u2019re not arbitrary SEO tactics; they\u2019re what engines recognize as genuinely valuable content worth citing."},
+    {module:3,question:3,text:"The system explains that content is becoming more \u201Clong-tail and personal.\u201D You\u2019re planning a content calendar for a corporate card company. Which approach best reflects this principle?",options:[{letter:"A",text:"Create 10 articles targeting \u201Cbest corporate card\u201D variations."},{letter:"B",text:"Create content addressing highly specific contexts: \u201CI\u2019m a finance manager at a 30-person Series A company in healthcare trying to reduce time spent sorting transactions\u201D \u2014 the kind of detailed, contextual query buyers now type into AI."},{letter:"C",text:"Create one comprehensive corporate card comparison page and update it monthly."},{letter:"D",text:"Create content that matches the exact phrasing of Google\u2019s \u201CPeople Also Ask\u201D results."}],correct:"B",explanation:"AI enables buyers to ask questions with full context \u2014 company size, industry, role, specific pain point. Nobody typed queries like this into Google, but they absolutely type them into ChatGPT. The system teaches you to map the long-tail surface area your audience explores and create content that matches those specific contexts."},
+    {module:3,question:4,text:"What does the system mean by \u201Cartifacts as source of truth\u201D?",options:[{letter:"A",text:"Physical documents that are signed and archived for compliance."},{letter:"B",text:"Living documents \u2014 like company context, audience personas, and writing guidelines \u2014 that serve as a shared foundation so both your team and AI tools operate from the same understanding of your brand, audience, and standards."},{letter:"C",text:"The final published content pieces on your website."},{letter:"D",text:"Screenshots of AI answers that mention your brand."}],correct:"B",explanation:"Marcel uses the analogy of a brilliant intern who is \u201Cinsanely overconfident but willing to work hard.\u201D You wouldn\u2019t give that intern one sentence of context \u2014 you\u2019d give them the big picture. Artifacts are that big picture, kept as living documents that any team member or AI tool can reference to produce consistent, high-quality work."},
+    {module:3,question:5,text:"A team member argues: \u201CWe should just optimize our content for machines \u2014 that\u2019s where the traffic is going.\u201D Based on the system, why is this thinking incomplete?",options:[{letter:"A",text:"Because machines don\u2019t read content."},{letter:"B",text:"Because these models are trained on human preference data too. Content that creates genuine value for humans is what ultimately gets preferred by the models \u2014 optimizing only for machines misses why the models value what they value."},{letter:"C",text:"Because Google still drives more traffic than AI."},{letter:"D",text:"Because machines can detect content written for machines and penalize it."}],correct:"B",explanation:"Marcel makes this point explicitly: \u201CI know a lot of people are saying just optimize for LLMs, optimize for machines, but you have to remember these models are trained on human preference data too.\u201D Content that genuinely helps humans \u2192 gets preferred by humans \u2192 signals to models that this content is high quality \u2192 gets cited more. The incentives actually align."},
+
+    {module:4,question:1,text:"You give ChatGPT a one-shot prompt: \u201CWrite me an article about top tax deductions for construction companies.\u201D The output looks decent at first glance. Based on the system\u2019s demonstration, what\u2019s actually wrong with this approach?",options:[{letter:"A",text:"ChatGPT can\u2019t write about tax topics."},{letter:"B",text:"One-shot prompts produce output that lacks relevance, proper citations, current data, and brand alignment \u2014 it might be 40\u201350% there but will require hours of manual reworking, and often you\u2019d be better starting from scratch."},{letter:"C",text:"The topic is too niche for AI to handle."},{letter:"D",text:"You should have used Claude instead of ChatGPT."}],correct:"B",explanation:"Marcel demos this exact scenario live. The one-shot output \u201Cdoesn\u2019t look bad at face value\u201D but lacks citations, uses outdated data (2024 instead of 2025), isn\u2019t well-researched, and doesn\u2019t match the audience. Most people then spend hours wrestling with it. The system shows that the same prompt plus good context and research produces dramatically better output \u2014 proving context beats prompt engineering."},
+    {module:4,question:2,text:"The system\u2019s content quality framework rests on three pillars. What are they?",options:[{letter:"A",text:"Speed, Volume, and Distribution"},{letter:"B",text:"Credible, Comprehensive, and Fresh"},{letter:"C",text:"Original, Keyword-Optimized, and Shareable"},{letter:"D",text:"Expert-Written, Fact-Checked, and SEO-Structured"}],correct:"B",explanation:"\u201CCredible, comprehensive, and fresh\u201D is the quality bar the entire system works backward from. Every process \u2014 research sprints, artifact creation, expert review, freshness updates \u2014 serves one or more of these three pillars. If content doesn\u2019t hit all three, it won\u2019t build trust with your audience or earn citations from AI engines."},
+    {module:4,question:3,text:"Marcel\u2019s core advice before scaling content production is: \u201CDon\u2019t start with workflows.\u201D What does he mean, and what should you start with instead?",options:[{letter:"A",text:"Don\u2019t use automation tools at all \u2014 everything should be manual."},{letter:"B",text:"First, set the right context and define what \u201Cgreat\u201D looks like. Work backward from great quality, then build workflows to reproduce that standard at scale \u2014 not the reverse."},{letter:"C",text:"Start with hiring a large content team before building any processes."},{letter:"D",text:"Start with distribution strategy, then create content to fill those channels."}],correct:"B",explanation:"Marcel says: \u201CFigure out what great looks like\u2026 then you can layer in technology on top of that.\u201D He\u2019s seen companies produce 1,500 AI-generated garbage pages with zero results because they scaled workflows before defining quality. The system\u2019s sequence is: define great \u2192 build context \u2192 create manually \u2192 then systematize."},
+    {module:4,question:4,text:"You\u2019re evaluating a content workflow tool that promises \u201Cone-click article generation.\u201D A colleague is excited about the productivity gains. Based on the system\u2019s philosophy, what\u2019s the strongest counterargument?",options:[{letter:"A",text:"These tools are always scams."},{letter:"B",text:"If one-click generation is easy for you, a thousand competitors are pressing that button too. The bar for being cited and building trust requires research depth, expert judgment, and brand-specific context that one-shot tools cannot provide."},{letter:"C",text:"You should build your own tool instead of buying one."},{letter:"D",text:"One-click tools only work for B2C, not B2B content."}],correct:"B",explanation:"Jason makes this exact point: \u201CIf it takes you one button click, somebody\u2019s pressing that button a thousand times.\u201D The system\u2019s position is that the competitive advantage comes from the depth of your context, the quality of your research, and the human judgment in the loop \u2014 not from the speed of generation."},
+    {module:4,question:5,text:"The system distinguishes between \u201Ccontext engineering\u201D and \u201Cprompt engineering.\u201D A team member has spent two weeks perfecting their article-writing prompt. Based on the system, what would produce better results?",options:[{letter:"A",text:"Spending another two weeks on the prompt until it\u2019s perfect."},{letter:"B",text:"Spending that time building high-quality context artifacts \u2014 company profile, audience persona, writing guidelines, and topic-specific research \u2014 then using even a simple prompt. The quality of the context you provide matters far more than the cleverness of the prompt."},{letter:"C",text:"Switching to a different AI model with better writing capabilities."},{letter:"D",text:"Hiring a prompt engineering consultant."}],correct:"B",explanation:"Marcel demonstrates this live: a simple \u201Cwrite me an article\u201D prompt plus rich context (company overview, writing guidelines, research, audience persona) dramatically outperforms an elaborate prompt with no context. The system\u2019s principle is that context beats prompt engineering \u2014 always invest in the inputs, not the instructions."},
+    {module:4,question:6,text:"What does \u201Cexpert-in-the-loop\u201D mean in the GrowthX system, and why does it matter?",options:[{letter:"A",text:"Having a subject matter expert write every article from scratch."},{letter:"B",text:"Having domain experts and editors raise the bar at key stages \u2014 setting context, shaping strategy, reviewing outputs, and making judgment calls about quality and alignment that AI alone cannot make."},{letter:"C",text:"Using expert-system AI software instead of general-purpose LLMs."},{letter:"D",text:"Hiring consultants to audit your content quarterly."}],correct:"B",explanation:"The system\u2019s position is that the role of the expert evolves \u2014 not disappears. Experts set context, shape research directions, review outputs, and make judgment calls. Marcel calls them \u201Coutput bar-raisers.\u201D Removing experts entirely leads to the 1,500-page garbage scenario; keeping them at the right leverage points is how quality scales."},
+
+    {module:5,question:1,text:"A new marketing hire says: \u201CI just need to buy the right AEO tool and we\u2019ll be set.\u201D Based on the AEO Masterclass, why is this thinking fundamentally flawed?",options:[{letter:"A",text:"AEO tools are too expensive for most companies."},{letter:"B",text:"AEO is a discipline, not a tool. Just as you don\u2019t fix brand perception by buying a better survey tool, you don\u2019t fix AI visibility by buying a better dashboard \u2014 you fix it by creating better content on the domain you control."},{letter:"C",text:"AEO tools don\u2019t actually work with most AI engines."},{letter:"D",text:"You need at least three AEO tools to get reliable data."}],correct:"B",explanation:"Marcel says this is his \u201Cbiggest pet peeve\u201D in the space: \u201CYou don\u2019t fix AI visibility by buying a better dashboard. You fix it by creating better content on the domain you control.\u201D AEO as a discipline means understanding how engines work, managing your sphere of influence, and systematically becoming the best answer."},
+    {module:5,question:2,text:"The system frames your brand\u2019s relationship with AI answers as: \u201CYour first sales call now happens inside an AI answer.\u201D What is the practical implication of this framing?",options:[{letter:"A",text:"You should put your sales pitch directly into your website content."},{letter:"B",text:"If someone spends 15\u201320 minutes researching in an AI engine \u2014 getting personalized recommendations, comparing options, reading about your strengths \u2014 that\u2019s functionally a sales conversation. If you\u2019re not in the answer, not well-positioned, or described negatively, you\u2019ve lost a deal you never knew existed."},{letter:"C",text:"You should train your sales team to use AI tools during calls."},{letter:"D",text:"AI will eventually replace your sales team entirely."}],correct:"B",explanation:"This reframing changes how teams prioritize AI visibility. It\u2019s not a marketing vanity metric \u2014 it\u2019s pipeline. Buyers treat AI recommendations like expert word-of-mouth. Being absent or misrepresented in those 15\u201320 minute research sessions means losing deals at a stage you can\u2019t even see in your CRM."},
+    {module:5,question:3,text:"The AEO maturity model has four dimensions. A company has great content but poor technical infrastructure \u2014 crawlers are blocked, sitemaps are broken, and pages load slowly. Which dimension are they failing in?",options:[{letter:"A",text:"Content maturity"},{letter:"B",text:"Technical maturity"},{letter:"C",text:"Authority maturity"},{letter:"D",text:"Measurement maturity"}],correct:"B",explanation:"The four-dimension maturity model (content, technical, authority, measurement) helps diagnose where you\u2019re falling short. Marcel finds that over 50% of companies have fundamental technical issues \u2014 broken sitemaps, blocked crawlers, CDN rules preventing access. You can have the best content in the world, but if AI crawlers can\u2019t access it, you\u2019re invisible."},
+    {module:5,question:4,text:"During an ICP deep-dive for a project management tool, you create a persona for \u201Coperations managers at mid-size construction companies.\u201D The system teaches you to go beyond demographics. What additional dimensions should your persona include?",options:[{letter:"A",text:"Only their job title, company size, and technology stack."},{letter:"B",text:"Their daily reality, career trajectory, specific jobs-to-be-done, work products they deliver, fears and motivations, trust builders and trust killers, and the triggers that cause them to start evaluating solutions."},{letter:"C",text:"Their social media profiles and content consumption habits."},{letter:"D",text:"Their budget authority and procurement process only."}],correct:"B",explanation:"The system\u2019s persona depth goes far beyond typical marketing personas. Marcel maps daily reality, career trajectory, deliverables, fears/motivations, and buying triggers because this level of understanding drives content that genuinely resonates. When AI engines retrieve your content, the contextual depth is what makes it the best answer for specific, long-tail queries about real problems."},
+    {module:5,question:5,text:"The system\u2019s \u201Csphere of influence\u201D model has concentric tiers. Your website sits at the center. What\u2019s the strategic logic for starting there instead of, say, Reddit or industry publications?",options:[{letter:"A",text:"Because Google ranks your own website higher than third-party sites."},{letter:"B",text:"Because your website is what you fully control \u2014 you can change it in days, it influences all three layers (training, retrieval, user preference), it\u2019s where transactions happen, it compounds over time, and it\u2019s the best place to measure everything. Work outward from what you control."},{letter:"C",text:"Because AI engines only cite pages from company websites, not third-party sources."},{letter:"D",text:"Because third-party sites charge for placement."}],correct:"B",explanation:"The concentric-circle model goes: control (your site) \u2192 influence (LinkedIn, YouTube, GitHub, review sites) \u2192 earn (analyst reports, press, word of mouth). Starting at the center isn\u2019t about ignoring the outer rings \u2014 it\u2019s about building from the domain you fully control, because everything in the outer rings eventually links back to and validates what\u2019s on your site."},
+
+    {module:6,question:1,text:"A team member copies a prompt template from a popular LinkedIn post and uses it as-is for all their content creation. Based on the system\u2019s teaching about prompts, what\u2019s the problem?",options:[{letter:"A",text:"LinkedIn prompts are always low quality."},{letter:"B",text:"Prompts are starting points, not endpoints. The real leverage comes from the context you feed alongside the prompt \u2014 your company artifacts, audience personas, research, and writing guidelines. A mediocre prompt with great context outperforms a clever prompt with no context."},{letter:"C",text:"You should only use prompts from official GrowthX resources."},{letter:"D",text:"Prompt templates become outdated within a week."}],correct:"B",explanation:"Marcel explicitly demonstrates that the prompt itself matters far less than people think. His live demo shows a simple \u201Cwrite me an article\u201D prompt producing dramatically different results based solely on whether context artifacts were included. The system\u2019s principle: stop optimizing prompts; start investing in context."},
+    {module:6,question:2,text:"The system identifies three foundational artifacts that make the biggest impact on content quality. What are they?",options:[{letter:"A",text:"Keyword research document, SEO audit, and competitor analysis"},{letter:"B",text:"Company context, audience personas, and writing guidelines"},{letter:"C",text:"Editorial calendar, style guide, and brand book"},{letter:"D",text:"Content brief template, review checklist, and publishing workflow"}],correct:"B",explanation:"These three artifacts are the minimum viable context the system teaches. Company context captures who you are and what you do. Audience personas capture who you serve at deep behavioral level. Writing guidelines capture your voice and standards. Together, they ensure every team member and AI tool operates from the same source of truth."},
+    {module:6,question:3,text:"You\u2019re building a \u201Ccompany context\u201D artifact for a client. The system says to go beyond what the company says about itself. What additional research inputs does the system recommend?",options:[{letter:"A",text:"Just the company\u2019s \u201CAbout Us\u201D page and recent press releases."},{letter:"B",text:"Deep research on the company\u2019s origin story, business reality, market position, founder philosophy, customer reviews and quotes, competitor perception, sales call recordings, and internal documentation \u2014 seeking to understand from multiple angles, not just the company\u2019s self-description."},{letter:"C",text:"Only publicly available financial data and analyst reports."},{letter:"D",text:"A survey of the company\u2019s employees about their work experience."}],correct:"B",explanation:"The system\u2019s company research goes deliberately wide: origin story, business reality, what they actually do, market position, the people, the problems, and the future. Marcel also researches the founder\u2019s communication style, pulls customer reviews, and gathers competitor perception \u2014 because a one-dimensional self-description produces one-dimensional content."},
+    {module:6,question:4,text:"The system emphasizes that artifacts are \u201Cliving documents.\u201D What does this mean in practice?",options:[{letter:"A",text:"They should be rewritten from scratch every quarter."},{letter:"B",text:"They should be continuously updated as you learn from content execution \u2014 when outputs fall short, you diagnose why, update the relevant artifact, and the improvement propagates across all future content. Like cursor rules or claude.md files, they evolve with usage."},{letter:"C",text:"They should be printed out and kept on your desk for reference."},{letter:"D",text:"They should be version-controlled in Git with formal release cycles."}],correct:"B",explanation:"Marcel compares artifacts to cursor rules or claude.md files \u2014 they\u2019re living references that improve through use. When a writing guideline produces off-brand tone, you update the guideline. When the audience persona misses a key pain point, you refine it. The artifacts get better over time, which means every future output gets better automatically."},
+    {module:6,question:5,text:"You have a company context artifact and want to create an audience persona. The system teaches a specific approach to persona depth. Which starting point best reflects the system\u2019s method?",options:[{letter:"A",text:"Start with demographics: job title, age, location, income."},{letter:"B",text:"Start with the person\u2019s daily reality: What does their actual job description look like? What work products do they deliver? What makes their day miserable? What triggers them to start looking for a solution? What would they search for in an AI engine?"},{letter:"C",text:"Start with their media consumption habits and preferred social platforms."},{letter:"D",text:"Start with their position in the buying committee and decision-making authority."}],correct:"B",explanation:"The system builds personas from daily reality outward, not demographics inward. Marcel asks: \u201CWhat is the job description for this person? What are the jobs to be done? What is their career trajectory?\u201D This depth is what enables content that resonates with real people asking real questions in AI engines \u2014 not generic buyer persona templates."},
+    {module:6,question:6,text:"You\u2019ve generated a first draft with AI and it\u2019s mediocre \u2014 generic tone, missing your audience\u2019s context, flat structure. The system teaches a specific iteration framework. What\u2019s the right approach?",options:[{letter:"A",text:"Throw out the draft and start over with a better prompt."},{letter:"B",text:"Apply the Shaping Loop \u2014 Flip the angle to reframe the draft\u2019s perspective, Spread to explore alternative structures, Articulate to sharpen the specific value, Chisel to cut everything that doesn\u2019t serve the reader, and Re-Anchor to ground the final output in your artifacts and quality bar."},{letter:"C",text:"Run the same prompt three more times and pick the best version."},{letter:"D",text:"Hand it to a human editor and let them fix it manually."}],correct:"B",explanation:"The Shaping Loop (Flip/Spread/Articulate/Chisel/Re-Anchor) is one of the system\u2019s most practical frameworks. It teaches a meta-skill: how to iterate AI outputs instead of accepting or rejecting the first draft. Research shows quality drops sharply after ~10 conversation turns, so structured iteration with re-anchoring to your artifacts keeps outputs tight and on-brand."},
+
+    {module:7,question:1,text:"Your CMO wants a single number that represents \u201Chow we\u2019re doing in AI.\u201D Based on the system\u2019s measurement philosophy, what\u2019s the best approach?",options:[{letter:"A",text:"Track total AI mentions across all engines and report the number monthly."},{letter:"B",text:"Build a composite score that measures presence (visibility and consistency across engines), reputation (market perception), alignment (how AI describes you vs. how you want to be described), and influence (how much you control the sources being cited) \u2014 scoped to evaluation-stage queries in your buying categories."},{letter:"C",text:"Report the number of pages you\u2019ve published that month."},{letter:"D",text:"Track ChatGPT market share for your primary keyword."}],correct:"B",explanation:"The system explicitly teaches composite scoring across the four PRAI dimensions (Presence, Reputation, Alignment, Influence), scoped narrowly to commercial intent within specific buying categories. A single \u201Cmentions\u201D number is vanity; a composite score across dimensions, engines, and time tells you something actionable."},
+    {module:7,question:2,text:"You notice your AI visibility score spiked after publishing 100 new pages, but it\u2019s dropping again two weeks later. The system calls this pattern \u201Cboomerangs.\u201D What\u2019s the most likely cause?",options:[{letter:"A",text:"AI engines have a 2-week delay in updating their indexes."},{letter:"B",text:"The content quality was insufficient \u2014 pages ranked temporarily on novelty but lacked the depth, research, and value to sustain citations. The volume masked the decay temporarily, but low engagement signals caused the pages to lose ground."},{letter:"C",text:"Your competitors published more content than you during those two weeks."},{letter:"D",text:"AI engines rotate which brands they feature to maintain fairness."}],correct:"B",explanation:"Marcel warns about the \u201Cboomerang\u201D pattern: volume can create an initial spike that masks quality problems because new pages temporarily compensate for decaying ones. The system teaches watching engagement on individual pages \u2014 if time-on-page is low, if users bounce, that\u2019s a signal the content isn\u2019t delivering value, and it will fall off."},
+    {module:7,question:3,text:"A data analyst suggests tracking AI visibility for the query \u201CWhat is AEO?\u201D to measure your brand\u2019s performance. Based on the system, why is this a poor choice?",options:[{letter:"A",text:"Because \u201CWhat is AEO?\u201D is too short a query."},{letter:"B",text:"Because it\u2019s an educational/awareness query with no commercial intent \u2014 AI engines don\u2019t typically recommend brands in informational answers. You should track evaluation-stage queries within your buying categories where brands naturally appear on shortlists."},{letter:"C",text:"Because too many companies are already tracking that query."},{letter:"D",text:"Because AEO is not a real buying category."}],correct:"B",explanation:"Marcel draws a clear line: \u201CIf you ask what is AI, it\u2019s not going to recommend a tool.\u201D Tracking awareness queries alongside commercial queries makes your data useless. The system teaches measuring within the evaluation stage of your specific buying categories \u2014 where buyers are forming shortlists and AI engines actually surface brand recommendations."},
+    {module:7,question:4,text:"The system teaches measuring AI visibility across multiple engines, not just ChatGPT. Why is cross-engine measurement critical?",options:[{letter:"A",text:"Because ChatGPT has the smallest market share."},{letter:"B",text:"Because each engine operates completely differently \u2014 their citation patterns, source preferences, and retrieval methods vary significantly. A brand can be highly visible in one engine and invisible in another. Cross-engine measurement reveals blind spots a single-engine view would miss."},{letter:"C",text:"Because companies need to report metrics for each engine to different executives."},{letter:"D",text:"Because AI engines share data with each other, so inconsistencies indicate errors."}],correct:"B",explanation:"GrowthX\u2019s research across 600,000+ citations and 1 million+ AI answers confirmed that each engine operates completely differently. A strategy that wins in ChatGPT might fail in Claude or Perplexity. The system insists on cross-engine measurement because your buyers use multiple engines \u2014 and your blind spots in any one of them are invisible unless you\u2019re watching all of them."},
+    {module:7,question:5,text:"You\u2019re setting up measurement for a new client. They want to start by tracking conversion rates from AI referral traffic. Based on the system\u2019s measurement hierarchy, what\u2019s wrong with starting here?",options:[{letter:"A",text:"AI referral traffic can\u2019t be tracked in analytics tools."},{letter:"B",text:"Conversion is a lagging indicator \u2014 you should start with leading indicators: Are pages getting indexed? Getting impressions? Getting clicks? Getting engagement? If you skip straight to conversion, you have no diagnostic ability when results are poor, and you\u2019ll conclude \u201Cthis doesn\u2019t work\u201D within three months."},{letter:"C",text:"Conversion tracking requires at least 12 months of baseline data."},{letter:"D",text:"You should only track conversions from organic search, not AI referrals."}],correct:"B",explanation:"Marcel maps a specific measurement journey: indexed \u2192 impressions \u2192 clicks \u2192 engagement \u2192 conversion. Each stage is diagnostic. \u201CIf time on page sucks, that\u2019s a signal.\u201D Starting at conversion gives you a lagging number with no ability to diagnose what\u2019s broken upstream. The system teaches working the leading indicators first and earning your way to conversion metrics."},
+    {module:7,question:6,text:"Marcel explains that content freshness is critical \u2014 \u201Ccontent older than 30 days gets 3.2x fewer citations.\u201D A client has 2,000 pages on their site. How does the system suggest handling this freshness challenge?",options:[{letter:"A",text:"Delete all pages older than 30 days and start fresh."},{letter:"B",text:"Treat your site as a portfolio \u2014 use AI agents and systems to continuously monitor, refresh, and optimize pages. Prioritize updates for your highest-performing and most strategically important pages, and build automated systems that can keep content current at scale."},{letter:"C",text:"Hire a team of 20 writers to manually update all pages every month."},{letter:"D",text:"Only maintain 50 pages and delete the rest to keep things manageable."}],correct:"B",explanation:"The system teaches a portfolio management mindset \u2014 borrowed from Jeff Wilkie\u2019s approach to Amazon\u2019s catalog. Every page is an asset. You manage which to invest in, which to refresh, and which to retire. The answer isn\u2019t \u201Cfewer pages\u201D (you need surface area) or \u201Call manual\u201D (that doesn\u2019t scale). It\u2019s systematic portfolio management with AI agents handling the ongoing freshness, link health, and alignment checks that no human team could maintain across thousands of pages."}
+  ];
+
+  var MODULE_NAMES = {
+    1: "System Overview",
+    2: "Visibility Playbook",
+    3: "Content Strategy",
+    4: "Content Quality",
+    5: "AEO Masterclass",
+    6: "Prompts & Artifacts",
+    7: "Measurement"
+  };
+
+  var MODULE_COUNTS = {};
+  questions.forEach(function (q) {
+    MODULE_COUNTS[q.module] = (MODULE_COUNTS[q.module] || 0) + 1;
+  });
+
+  var state = {
+    filter: "all",
+    answers: {},
+    scores: {}
+  };
+
+  /* ── Render Pills ── */
+  function renderPills() {
+    var wrap = document.getElementById("module-pills");
+    var html = '<button class="module-pill active" data-module="all" role="tab" aria-selected="true">All</button>';
+    for (var m = 1; m <= 7; m++) {
+      html += '<button class="module-pill" data-module="' + m + '" role="tab" aria-selected="false">' +
+        String(m).padStart(2, "0") + " " + MODULE_NAMES[m] + "</button>";
+    }
+    wrap.innerHTML = html;
+    wrap.addEventListener("click", function (e) {
+      var pill = e.target.closest(".module-pill");
+      if (!pill) return;
+      var mod = pill.getAttribute("data-module");
+      state.filter = mod === "all" ? "all" : parseInt(mod, 10);
+      wrap.querySelectorAll(".module-pill").forEach(function (p) {
+        var active = p.getAttribute("data-module") === mod;
+        p.classList.toggle("active", active);
+        p.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      renderQuestions();
+    });
+  }
+
+  /* ── Render Questions ── */
+  function renderQuestions() {
+    var container = document.getElementById("questions-container");
+    var filtered = state.filter === "all"
+      ? questions
+      : questions.filter(function (q) { return q.module === state.filter; });
+
+    var html = "";
+    var lastModule = null;
+
+    filtered.forEach(function (q) {
+      var key = q.module + "-" + q.question;
+      var answered = state.answers[key] !== undefined;
+      var userAnswer = state.answers[key];
+      var isCorrect = userAnswer === q.correct;
+
+      if (state.filter === "all" && q.module !== lastModule) {
+        if (lastModule !== null) {
+          html += renderModuleScore(lastModule);
+        }
+        lastModule = q.module;
+      }
+
+      html += '<div class="question-card' + (answered ? " answered" : "") + '" id="q-' + key + '">';
+      html += '<div class="question-module-label">Module ' + String(q.module).padStart(2, "0") + ' \u00B7 Q' + q.question + '</div>';
+      html += '<div class="question-text">' + escapeHtml(q.text) + '</div>';
+      html += '<div class="options-list">';
+
+      q.options.forEach(function (opt) {
+        var cls = "option-btn";
+        var icon = opt.letter;
+        if (answered) {
+          cls += " locked";
+          if (opt.letter === q.correct) {
+            cls += " correct";
+            icon = "\u2713";
+          } else if (opt.letter === userAnswer && !isCorrect) {
+            cls += " incorrect";
+            icon = "\u2717";
+          }
+        }
+        html += '<button class="' + cls + '" data-key="' + key + '" data-letter="' + opt.letter + '"' + (answered ? ' disabled' : '') + '>';
+        html += '<span class="option-letter">' + icon + '</span>';
+        html += '<span class="option-text">' + escapeHtml(opt.text) + '</span>';
+        html += '</button>';
+      });
+
+      html += '</div>';
+      html += '<div class="explanation' + (answered ? " visible" : "") + '">';
+      html += '<div class="explanation-label">Why this matters</div>';
+      html += '<div class="explanation-text">' + escapeHtml(q.explanation) + '</div>';
+      html += '</div>';
+      html += '</div>';
+    });
+
+    if (state.filter === "all" && lastModule !== null) {
+      html += renderModuleScore(lastModule);
+    }
+    if (state.filter !== "all") {
+      html += renderModuleScore(state.filter);
+    }
+
+    container.innerHTML = html;
+    container.addEventListener("click", handleAnswer);
+    updateResults();
+  }
+
+  function renderModuleScore(mod) {
+    var moduleQs = questions.filter(function (q) { return q.module === mod; });
+    var answeredCount = 0;
+    var correctCount = 0;
+    moduleQs.forEach(function (q) {
+      var key = q.module + "-" + q.question;
+      if (state.answers[key] !== undefined) {
+        answeredCount++;
+        if (state.answers[key] === q.correct) correctCount++;
+      }
+    });
+    var allDone = answeredCount === moduleQs.length;
+    return '<div class="module-score' + (allDone ? " visible" : "") + '" data-module-score="' + mod + '">' +
+      '<div class="module-score-title">Module ' + String(mod).padStart(2, "0") + ' \u2014 ' + MODULE_NAMES[mod] + '</div>' +
+      '<div class="module-score-value">' + correctCount + '<span> / ' + moduleQs.length + ' correct</span></div>' +
+      '</div>';
+  }
+
+  /* ── Handle Answer ── */
+  function handleAnswer(e) {
+    var btn = e.target.closest(".option-btn");
+    if (!btn || btn.classList.contains("locked")) return;
+
+    var key = btn.getAttribute("data-key");
+    var letter = btn.getAttribute("data-letter");
+    if (state.answers[key] !== undefined) return;
+
+    state.answers[key] = letter;
+
+    var parts = key.split("-");
+    var mod = parseInt(parts[0], 10);
+    var qNum = parseInt(parts[1], 10);
+    var q = questions.find(function (q) { return q.module === mod && q.question === qNum; });
+    var isCorrect = letter === q.correct;
+
+    var card = document.getElementById("q-" + key);
+    card.classList.add("answered");
+    var buttons = card.querySelectorAll(".option-btn");
+    buttons.forEach(function (b) {
+      b.classList.add("locked");
+      b.disabled = true;
+      var bLetter = b.getAttribute("data-letter");
+      if (bLetter === q.correct) {
+        b.classList.add("correct");
+        b.querySelector(".option-letter").textContent = "\u2713";
+      } else if (bLetter === letter && !isCorrect) {
+        b.classList.add("incorrect");
+        b.querySelector(".option-letter").textContent = "\u2717";
+      }
+    });
+
+    var explanation = card.querySelector(".explanation");
+    requestAnimationFrame(function () {
+      explanation.classList.add("visible");
+    });
+
+    updateProgress();
+    checkModuleComplete(mod);
+    updateResults();
+
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReduced) {
+      var nextCard = card.nextElementSibling;
+      if (nextCard && nextCard.classList.contains("question-card")) {
+        setTimeout(function () {
+          nextCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 500);
+      }
+    }
+  }
+
+  /* ── Progress ── */
+  function updateProgress() {
+    var total = questions.length;
+    var answered = Object.keys(state.answers).length;
+    var pct = (answered / total) * 100;
+    var fill = document.querySelector(".progress-bar-fill");
+    var label = document.querySelector(".progress-bar-label");
+    var wrap = document.querySelector(".progress-bar-wrap");
+    fill.style.width = pct + "%";
+    wrap.setAttribute("aria-valuenow", answered);
+    label.textContent = answered + " / " + total;
+    label.classList.toggle("visible", answered > 0);
+  }
+
+  function checkModuleComplete(mod) {
+    var moduleQs = questions.filter(function (q) { return q.module === mod; });
+    var allDone = moduleQs.every(function (q) {
+      return state.answers[q.module + "-" + q.question] !== undefined;
+    });
+    if (!allDone) return;
+
+    var scoreEls = document.querySelectorAll('[data-module-score="' + mod + '"]');
+    var correctCount = 0;
+    moduleQs.forEach(function (q) {
+      if (state.answers[q.module + "-" + q.question] === q.correct) correctCount++;
+    });
+    scoreEls.forEach(function (el) {
+      el.querySelector(".module-score-value").innerHTML = correctCount + '<span> / ' + moduleQs.length + ' correct</span>';
+      el.classList.add("visible");
+    });
+  }
+
+  /* ── Final Results ── */
+  function updateResults() {
+    var total = questions.length;
+    var answered = Object.keys(state.answers).length;
+    if (answered < total) {
+      document.getElementById("results-panel").classList.remove("visible");
+      return;
+    }
+
+    var correct = 0;
+    questions.forEach(function (q) {
+      if (state.answers[q.module + "-" + q.question] === q.correct) correct++;
+    });
+
+    var message;
+    if (correct >= 35) message = "You think like a GrowthX strategist.";
+    else if (correct >= 28) message = "Strong foundation. A few blind spots to revisit.";
+    else if (correct >= 20) message = "Solid start. Revisit the modules where you scored lowest.";
+    else message = "The system has a lot to teach you. That\u2019s the point.";
+
+    var breakdownHtml = "";
+    for (var m = 1; m <= 7; m++) {
+      var moduleQs = questions.filter(function (q) { return q.module === m; });
+      var modCorrect = 0;
+      moduleQs.forEach(function (q) {
+        if (state.answers[q.module + "-" + q.question] === q.correct) modCorrect++;
+      });
+      breakdownHtml += '<div class="results-module">' +
+        '<div class="results-module-label">Module ' + String(m).padStart(2, "0") + '</div>' +
+        '<div class="results-module-score">' + modCorrect + '<span>/' + moduleQs.length + '</span></div>' +
+        '</div>';
+    }
+
+    var panel = document.getElementById("results-panel");
+    panel.innerHTML =
+      '<div class="results-card">' +
+      '<div class="results-overline">Final Score</div>' +
+      '<div class="results-score">' + correct + '<span> / ' + total + '</span></div>' +
+      '<div class="results-message">' + escapeHtml(message) + '</div>' +
+      '<div class="results-breakdown">' + breakdownHtml + '</div>' +
+      '</div>';
+    panel.classList.add("visible");
+
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReduced) {
+      setTimeout(function () {
+        panel.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 600);
+    }
+  }
+
+  /* ── Start All ── */
+  function bindStartAll() {
+    document.getElementById("start-all-btn").addEventListener("click", function () {
+      var first = document.querySelector(".question-card");
+      if (first) {
+        first.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }
+
+  /* ── Utility ── */
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  /* ── Reveal Observer ── */
+  function initReveal() {
+    var nodes = document.querySelectorAll(".reveal");
+    if (!window.IntersectionObserver) {
+      nodes.forEach(function (el) { el.classList.add("visible"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        io.unobserve(entry.target);
+      });
+    }, { root: null, rootMargin: "0px 0px -48px 0px", threshold: 0.08 });
+    nodes.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ── Init ── */
+  renderPills();
+  renderQuestions();
+  updateProgress();
+  bindStartAll();
+  initReveal();
+})();
+</script>
+</body>
+</html>
