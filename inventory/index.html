@@ -1218,14 +1218,38 @@
 <div class="summary-bar">
   <h2>Summary & Recommended Next Actions</h2>
   <div class="summary-stats">
-    <div class="stat"><div class="stat-value green">8</div><div class="stat-label">Ready to ship</div></div>
-    <div class="stat"><div class="stat-value amber">0</div><div class="stat-label">Need curation</div></div>
-    <div class="stat"><div class="stat-value red">0</div><div class="stat-label">Need new content</div></div>
+    <div class="stat"><div class="stat-value green">7</div><div class="stat-label">Modules shipped</div></div>
+    <div class="stat"><div class="stat-value green">28</div><div class="stat-label">Clips live on CDN</div></div>
+    <div class="stat"><div class="stat-value green">39</div><div class="stat-label">Quiz questions live</div></div>
   </div>
   <ul class="action-list">
     <li>
+      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
+      <div><strong style="text-decoration:line-through;">Build all 7 module pages with interleaved video + written content</strong> — Each module has sequenced clips, narrative context, Mermaid diagrams, and key takeaways. Live at <code>modules/01–07.html</code>.</div>
+    </li>
+    <li>
+      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
+      <div><strong style="text-decoration:line-through;">Extract, trim, and host 28 video clips</strong> — Clips scored, cut, and uploaded to Cloudflare R2 (free CDN, no egress fees). All <code>&lt;video&gt;</code> tags point to <code>pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev</code>.</div>
+    </li>
+    <li>
+      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
+      <div><strong style="text-decoration:line-through;">Build interactive self-assessment quiz</strong> — 39 scenario-based questions with module filtering, instant scoring, and explanations. Live at <code>assessments/index.html</code>.</div>
+    </li>
+    <li>
+      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
+      <div><strong style="text-decoration:line-through;">Ship gated landing page</strong> — Full lead magnet landing page with email capture, social proof, module previews, and FAQs. Live at <code>system/index.html</code>.</div>
+    </li>
+    <li>
+      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
+      <div><strong style="text-decoration:line-through;">Add Mermaid diagrams, favicon, OG image, dark mode</strong> — Theme-aware charts embedded across modules. Branded favicon + social share card. Full light/dark mode support.</div>
+    </li>
+    <li>
       <span class="action-priority high">P0</span>
-      <div><strong>Marcel records 15-min System Overview</strong> — The single most important gap. Script it from the editorial pieces. One take, teleprompter-style. This is the "hook" video that frames the entire lead magnet.</div>
+      <div><strong>Marcel records 15-min System Overview</strong> — The single remaining gap. Script it from the editorial pieces. One take, teleprompter-style. This is the "hook" video that frames the entire lead magnet and completes Module 01.</div>
+    </li>
+    <li>
+      <span class="action-priority med">P1</span>
+      <div><strong>Connect email capture to CRM / marketing automation</strong> — The landing page form captures emails but needs a backend integration (HubSpot, ConvertKit, etc.) to deliver the lead magnet and nurture sequence.</div>
     </li>
     <li>
       <span class="action-priority low">P2</span>
@@ -1233,15 +1257,7 @@
     </li>
     <li>
       <span class="action-priority low">P2</span>
-      <div><strong>Marcel records Measurement walkthrough (bonus)</strong> — The CheckThat study now provides the data backbone. A dedicated walkthrough featuring CheckThat would make Module 07 best-in-class but is no longer blocking.</div>
-    </li>
-    <li>
-      <span class="action-priority med" style="background:var(--green); color:var(--bg);">DONE</span>
-      <div><strong style="text-decoration:line-through;">Chapter-mark and trim all modules</strong> — 28 clips extracted across 7 modules from 8 source videos. Files in <code>Content Vault/videos/clips/module-01…07/</code>.</div>
-    </li>
-    <li>
-      <span class="action-priority low">P2</span>
-      <div><strong>Write companion reading for each module</strong> — Use editorial series, social posts, and newsletter content as written companions alongside video. Short 500-word summaries per module.</div>
+      <div><strong>Marcel records Measurement walkthrough (bonus)</strong> — A dedicated CheckThat data walkthrough would make Module 07 best-in-class but is no longer blocking.</div>
     </li>
   </ul>
 </div>
