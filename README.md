@@ -35,8 +35,8 @@ The goal: generate qualified inbound leads for GrowthX by leading with extreme v
 - [ ] Cut 25 video clips from 11 source videos using the clip map scores and timestamps
 - [ ] Package self-assessments as an interactive quiz component
 - [ ] Wire the email form to a real backend (HubSpot, ConvertKit, or similar)
-- [ ] Final copy review with Marcel and Danny
-- [ ] Ship to production at a GrowthX-owned domain
+- [ ] Final copy review with Marcel and Danni
+- [ ] Ship to production at growthx.ai
 
 ## Tech
 
