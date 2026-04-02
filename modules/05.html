@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 05: AEO Masterclass — The GrowthX System</title>
+<meta name="description" content="Answer Engine Optimization from first principles. The 4-pillar maturity model, PRAI framework, and Webflow's credibility proof.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..680;1,14..32,400..680&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../theme.js"></script>
+<link rel="stylesheet" href="../shared.css">
+<style>
+.module-header {
+  padding: 120px clamp(16px, 4vw, 32px) 64px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.module-overline {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b8960c;
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+[data-theme="dark"] .module-overline { color: var(--yellow); }
+
+.module-header h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 680;
+  line-height: 1.08;
+  letter-spacing: -0.06em;
+  color: var(--text-primary);
+  max-width: 720px;
+  margin-bottom: 16px;
+}
+
+.module-desc {
+  font-size: 17px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.55;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+}
+
+.module-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.module-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.module-meta svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Video Clips ── */
+.clips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.clip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+
+.clip-card:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--text-muted);
+}
+
+.clip-placeholder {
+  aspect-ratio: 16 / 9;
+  background: #12121e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+}
+
+[data-theme="dark"] .clip-placeholder { background: #0c0c14; }
+
+.clip-placeholder svg {
+  width: 36px;
+  height: 36px;
+  fill: rgba(255, 255, 255, 0.15);
+}
+
+.clip-placeholder span {
+  font-size: 12px;
+  font-weight: 480;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: -0.02em;
+}
+
+.clip-body {
+  padding: 20px;
+}
+
+.clip-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.clip-title {
+  font-size: 16px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.clip-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.clip-meta .dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.clip-desc {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+.clips-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Takeaways ── */
+.takeaways-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.takeaways-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.takeaways-card li {
+  font-size: 15px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 12px;
+}
+
+.takeaways-card li:last-child { border-bottom: none; }
+
+.takeaways-card li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b8960c;
+  flex-shrink: 0;
+  margin-top: 9px;
+}
+
+[data-theme="dark"] .takeaways-card li::before { background: var(--yellow); }
+
+/* ── Companion Reading ── */
+.reading-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.reading-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--surface);
+}
+
+.reading-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--secondary);
+  color: var(--text-muted);
+}
+
+.reading-info { flex: 1; min-width: 0; }
+
+.reading-title {
+  font-size: 14px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+
+.reading-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+}
+
+/* ── Assessment Callout ── */
+.assessment-callout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.assessment-callout p {
+  font-size: 16px;
+  font-weight: 520;
+  letter-spacing: -0.03em;
+}
+
+.assessment-callout .sub {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ── Module Nav ── */
+.module-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 clamp(16px, 4vw, 32px);
+  max-width: var(--content-normal);
+  margin: 0 auto 64px;
+}
+
+.module-nav a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.module-nav a:hover {
+  border-color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.module-nav .prev-label,
+.module-nav .next-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 480;
+}
+
+@media (max-width: 768px) {
+  .module-header { padding: 100px 16px 48px; }
+  .clips-grid { grid-template-columns: 1fr; }
+  .module-nav { flex-direction: column; }
+  .assessment-callout { flex-direction: column; align-items: flex-start; }
+  .reading-item { flex-direction: column; gap: 6px; }
+}
+
+@media (max-width: 480px) {
+  .module-header h1 { letter-spacing: -0.04em; }
+  .takeaways-card { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/growthx-logo-dark.svg" alt="GrowthX" width="96" height="16">
+      <span class="nav-divider"></span>
+      <span class="nav-label">Module 05</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Hub</a>
+      <a href="../system/index.html">Landing Page</a>
+      <a href="../inventory/index.html">Inventory</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">growthx.ai</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Module Header ── -->
+<header class="module-header">
+  <p class="module-overline reveal">Module 05</p>
+  <h1 class="reveal reveal-d1">AEO Masterclass</h1>
+  <p class="module-desc reveal reveal-d2">Answer Engine Optimization from first principles. The 4-pillar maturity model, PRAI framework, and Webflow's credibility proof — everything you need to make your content visible inside AI answers.</p>
+  <div class="module-meta reveal reveal-d3">
+    <span>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      ~40 min
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      6 video clips
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      5 companion readings
+    </span>
+  </div>
+</header>
+
+<!-- ── Video Clips ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Video Clips</p>
+    <h2 class="section-title reveal reveal-d1">Watch in sequence</h2>
+    <p class="section-desc reveal reveal-d2">Watch in sequence for the intended learning flow.</p>
+
+    <div class="clips-grid">
+
+      <div class="clip-card reveal">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 01</p>
+          <h3 class="clip-title">The Buyer Behavior Shift</h3>
+          <div class="clip-meta">
+            <span>6 min</span>
+            <span class="dot"></span>
+            <span>content-quality-for-ai-answers</span>
+          </div>
+          <p class="clip-desc">15-20 min AI sessions, AI traffic converts 3-5x, Ramp citation example. "Your first sales call happens inside an AI answer."</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal reveal-d1">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 02</p>
+          <h3 class="clip-title">The Urgency: Data on Click Disappearance</h3>
+          <div class="clip-meta">
+            <span>7 min</span>
+            <span class="dot"></span>
+            <span>content-strategy-for-ai-answers</span>
+          </div>
+          <p class="clip-desc">3B daily AI users, 15-70% click disappearance, 4x LLM referral value, paid channel saturation. Hopeful close: quality of traffic is higher.</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal reveal-d2">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 03</p>
+          <h3 class="clip-title">The 4-Pillar AEO Maturity Model</h3>
+          <div class="clip-meta">
+            <span>3.5 min</span>
+            <span class="dot"></span>
+            <span>aeo-with-guy-from-webflow</span>
+          </div>
+          <p class="clip-desc">Content (keywords→answers), Technical (on-page→schema), Authority (backlinks→mentions), Measurement (ranking→share-of-voice). Entirely verbal, perfect standalone.</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 04</p>
+          <h3 class="clip-title">PRAI Framework: The Operational Definition</h3>
+          <div class="clip-meta">
+            <span>10 min</span>
+            <span class="dot"></span>
+            <span>ai-visibility-playbook-workshop</span>
+          </div>
+          <p class="clip-desc">Presence / Reputation / Alignment / Influence. Brand survey analogy. Three audiences.</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal reveal-d1">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 05</p>
+          <h3 class="clip-title">Webflow's Credibility Proof</h3>
+          <div class="clip-meta">
+            <span>5.5 min</span>
+            <span class="dot"></span>
+            <span>aeo-with-guy-from-webflow</span>
+          </div>
+          <p class="clip-desc">First-party data: 0% → 42% LLM traffic in 1 year, 6x conversion rate, hallucinated citations problem.</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal reveal-d2">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 06</p>
+          <h3 class="clip-title">Marcel's Synthesis</h3>
+          <div class="clip-meta">
+            <span>4.5 min</span>
+            <span class="dot"></span>
+            <span>aeo-with-guy-from-webflow</span>
+          </div>
+          <p class="clip-desc">AI answers as first sales call, content quality bar (credible / comprehensive / fresh at scale), CMS as foundation.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="clips-note reveal">Videos will be available once hosted. Clips are extracted and ready for upload.</p>
+  </div>
+</section>
+
+<!-- ── Key Takeaways ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Key Takeaways</p>
+    <h2 class="section-title reveal reveal-d1">What sticks</h2>
+
+    <div class="takeaways-card reveal reveal-d2">
+      <ul>
+        <li><span><strong>AEO is a discipline, not a tool.</strong> You don't fix AI visibility by buying a dashboard — you fix it by creating better content.</span></li>
+        <li><span><strong>The 4-pillar maturity model</strong> (Content, Technical, Authority, Measurement) diagnoses where you're falling short.</span></li>
+        <li><span><strong>PRAI</strong> (Presence, Reputation, Alignment, Influence) is the operational framework for AI visibility.</span></li>
+        <li><span><strong>Webflow went from 0% to 42% LLM traffic</strong> in one year with 6x conversion — proof the model works.</span></li>
+        <li><span><strong>Your sphere of influence:</strong> control (your site) → influence (LinkedIn, YouTube) → earn (analyst reports, press).</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── Companion Reading ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Companion Reading</p>
+    <h2 class="section-title reveal reveal-d1">Go deeper</h2>
+    <p class="section-desc reveal reveal-d2">Private vault files — not linked externally.</p>
+
+    <div class="reading-list reveal reveal-d3">
+      <div class="reading-item">
+        <span class="reading-badge">Editorial</span>
+        <div class="reading-info">
+          <p class="reading-title">content-strategy-04-aeo-masterclass.md</p>
+          <p class="reading-desc">Marcel's dedicated first-principles AEO breakdown</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Workshop</span>
+        <div class="reading-info">
+          <p class="reading-title">aeo-with-guy-from-webflow.md</p>
+          <p class="reading-desc">53 min with Guy Yalif — AEO maturity model + Webflow case study</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Editorial</span>
+        <div class="reading-info">
+          <p class="reading-title">content-strategy-05-editorial-manifesto-artifacts.md</p>
+          <p class="reading-desc">Artifacts and editorial manifesto</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Research</span>
+        <div class="reading-info">
+          <p class="reading-title">checkthat-geo-aeo-citation-study.md</p>
+          <p class="reading-desc">Vendor-specific AEO playbooks with hard data</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Luma</span>
+        <div class="reading-info">
+          <p class="reading-title">own-ai-front-page-webflow-webinar.md</p>
+          <p class="reading-desc">Webflow co-branded webinar</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Assessment ── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="assessment-callout reveal">
+      <div>
+        <p>Module 05 Assessment</p>
+        <p class="sub">Test your understanding — 5 questions for this module</p>
+      </div>
+      <a href="../assessments/index.html" class="btn btn-primary">Take Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Module Navigation ── -->
+<nav class="module-nav" aria-label="Module navigation">
+  <a href="04.html">
+    <span>←</span>
+    <span>
+      <span class="prev-label">Previous</span><br>
+      Module 04
+    </span>
+  </a>
+  <a href="06.html">
+    <span>
+      <span class="next-label">Next</span><br>
+      Module 06
+    </span>
+    <span>→</span>
+  </a>
+</nav>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../assets/growthx-logo-dark.svg" alt="" width="96" height="16" />
+      <span>&copy; 2026 GrowthX</span>
+    </div>
+    <div class="footer-links">
+      <a href="../index.html">Hub</a>
+      <a href="../system/index.html">Landing Page</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">growthx.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var nodes = document.querySelectorAll('.reveal');
+  if (!window.IntersectionObserver) {
+    nodes.forEach(function (el) { el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    });
+  }, { root: null, rootMargin: '0px 0px -48px 0px', threshold: 0.08 });
+  nodes.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>

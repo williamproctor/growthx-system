@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 06: Starter Prompts &amp; Artifacts — The GrowthX System</title>
+<meta name="description" content="Foundational artifacts, the Shaping Loop, and context-as-RAG. Short clips, deep written companions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..680;1,14..32,400..680&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../theme.js"></script>
+<link rel="stylesheet" href="../shared.css">
+<style>
+.module-header {
+  padding: 120px clamp(16px, 4vw, 32px) 64px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.module-overline {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b8960c;
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+[data-theme="dark"] .module-overline { color: var(--yellow); }
+
+.module-header h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 680;
+  line-height: 1.08;
+  letter-spacing: -0.06em;
+  color: var(--text-primary);
+  max-width: 720px;
+  margin-bottom: 16px;
+}
+
+.module-desc {
+  font-size: 17px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.55;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+}
+
+.module-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.module-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.module-meta svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Callout banner ── */
+.module-callout {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 32px;
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+}
+
+.module-callout strong {
+  color: var(--text-primary);
+  font-weight: 580;
+}
+
+/* ── Video Clips ── */
+.clips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.clip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+
+.clip-card:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--text-muted);
+}
+
+.clip-placeholder {
+  aspect-ratio: 16 / 9;
+  background: #12121e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+[data-theme="dark"] .clip-placeholder { background: #0c0c14; }
+
+.clip-placeholder svg {
+  width: 36px;
+  height: 36px;
+  fill: rgba(255, 255, 255, 0.15);
+}
+
+.clip-placeholder span {
+  font-size: 12px;
+  font-weight: 480;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: -0.02em;
+}
+
+.clip-body {
+  padding: 20px;
+}
+
+.clip-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.clip-title {
+  font-size: 16px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.clip-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.clip-meta .dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.clip-desc {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+.clips-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Takeaways ── */
+.takeaways-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.takeaways-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.takeaways-card li {
+  font-size: 15px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 12px;
+}
+
+.takeaways-card li:last-child { border-bottom: none; }
+
+.takeaways-card li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #b8960c;
+  flex-shrink: 0;
+  margin-top: 9px;
+}
+
+[data-theme="dark"] .takeaways-card li::before { background: var(--yellow); }
+
+/* ── Companion Reading ── */
+.reading-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.reading-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--surface);
+}
+
+.reading-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--secondary);
+  color: var(--text-muted);
+}
+
+.reading-info { flex: 1; min-width: 0; }
+
+.reading-title {
+  font-size: 14px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+
+.reading-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+}
+
+/* ── Assessment Callout ── */
+.assessment-callout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.assessment-callout p {
+  font-size: 16px;
+  font-weight: 520;
+  letter-spacing: -0.03em;
+}
+
+.assessment-callout .sub {
+  font-size: 14px;
+  font-weight: 480;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ── Module Nav ── */
+.module-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 clamp(16px, 4vw, 32px);
+  max-width: var(--content-normal);
+  margin: 0 auto 64px;
+}
+
+.module-nav a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 520;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.module-nav a:hover {
+  border-color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.module-nav .prev-label,
+.module-nav .next-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 480;
+}
+
+@media (max-width: 768px) {
+  .module-header { padding: 100px 16px 48px; }
+  .clips-grid { grid-template-columns: 1fr; }
+  .module-nav { flex-direction: column; }
+  .assessment-callout { flex-direction: column; align-items: flex-start; }
+  .reading-item { flex-direction: column; gap: 6px; }
+}
+
+@media (max-width: 480px) {
+  .module-header h1 { letter-spacing: -0.04em; }
+  .takeaways-card { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/growthx-logo-dark.svg" alt="GrowthX" width="96" height="16">
+      <span class="nav-divider"></span>
+      <span class="nav-label">Module 06</span>
+    </a>
+    <div class="nav-links">
+      <a href="../index.html">Hub</a>
+      <a href="../system/index.html">Landing Page</a>
+      <a href="../inventory/index.html">Inventory</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">growthx.ai</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Module Header ── -->
+<header class="module-header">
+  <p class="module-overline reveal">Module 06</p>
+  <h1 class="reveal reveal-d1">Starter Prompts &amp; Artifacts</h1>
+  <p class="module-desc reveal reveal-d2">The foundational artifacts that make AI outputs yours. Company context, audience personas, writing guidelines — and the Shaping Loop that teaches you how to iterate any AI output from generic to great.</p>
+  <div class="module-meta reveal reveal-d3">
+    <span>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      ~15 min
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      2 video clips
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      6 companion readings
+    </span>
+  </div>
+
+  <div class="module-callout reveal">
+    <strong>Module 06 has the richest written companion material.</strong> The video clips are short but powerful — the written guides below go deeper into artifact creation and prompt patterns.
+  </div>
+</header>
+
+<!-- ── Video Clips ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Video Clips</p>
+    <h2 class="section-title reveal reveal-d1">Watch in sequence</h2>
+    <p class="section-desc reveal reveal-d2">Watch in sequence for the intended learning flow.</p>
+
+    <div class="clips-grid">
+
+      <div class="clip-card reveal">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 01</p>
+          <h3 class="clip-title">The Shaping Loop</h3>
+          <div class="clip-meta">
+            <span>3.5 min</span>
+            <span class="dot"></span>
+            <span>chatgpt-shaping-loop-prompt-techniques</span>
+          </div>
+          <p class="clip-desc">FLIP / SPREAD / ARTICULATE / CHISEL / RE-ANCHOR with before/after examples. "Context rot" stat (17-35% degradation after 10 turns). Polished, zero screen dependency.</p>
+        </div>
+      </div>
+
+      <div class="clip-card reveal reveal-d1">
+        <div class="clip-placeholder">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Video not yet hosted — clip ready for upload</span>
+        </div>
+        <div class="clip-body">
+          <p class="clip-number">Clip 02</p>
+          <h3 class="clip-title">Context Artifacts as RAG Inputs</h3>
+          <div class="clip-meta">
+            <span>2 min</span>
+            <span class="dot"></span>
+            <span>why-ai-content-sounds-generic-rag</span>
+          </div>
+          <p class="clip-desc">Positioning docs, customer quotes, competitor analysis. "Output isn't generic anymore — it references your actual differentiators." $1.2B → $11B market data.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="clips-note reveal">Videos will be available once hosted. Clips are extracted and ready for upload.</p>
+  </div>
+</section>
+
+<!-- ── Key Takeaways ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Key Takeaways</p>
+    <h2 class="section-title reveal reveal-d1">What sticks</h2>
+
+    <div class="takeaways-card reveal reveal-d2">
+      <ul>
+        <li><span><strong>Prompts are starting points, not endpoints.</strong> Context beats prompt engineering — always.</span></li>
+        <li><span><strong>Three foundational artifacts:</strong> company context, audience personas, and writing guidelines.</span></li>
+        <li><span><strong>The Shaping Loop</strong> (Flip / Spread / Articulate / Chisel / Re-Anchor) teaches the meta-skill of iterating AI outputs.</span></li>
+        <li><span><strong>Artifacts are living documents</strong> that improve through use — like cursor rules, they evolve with every iteration.</span></li>
+        <li><span><strong>Build personas from daily reality outward,</strong> not demographics inward.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── Companion Reading ── -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">Companion Reading</p>
+    <h2 class="section-title reveal reveal-d1">Go deeper</h2>
+    <p class="section-desc reveal reveal-d2">Private vault files — not linked externally.</p>
+
+    <div class="reading-list reveal reveal-d3">
+      <div class="reading-item">
+        <span class="reading-badge">ALG Library</span>
+        <div class="reading-info">
+          <p class="reading-title">simplified-prompting-playbook.md</p>
+          <p class="reading-desc">8 real-world expert prompts across marketing, sales, ops, product</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">ALG Library</span>
+        <div class="reading-info">
+          <p class="reading-title">practical-guide-improving-ai-outputs.md</p>
+          <p class="reading-desc">The Shaping Loop framework (written companion)</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">YouTube</span>
+        <div class="reading-info">
+          <p class="reading-title">chatgpt-shaping-loop-prompt-techniques.md</p>
+          <p class="reading-desc">Danni Roseman's video walkthrough</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Editorial</span>
+        <div class="reading-info">
+          <p class="reading-title">content-strategy-05-editorial-manifesto-artifacts.md</p>
+          <p class="reading-desc">Artifact structures (company context, writing guidelines, audience persona)</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">Editorial</span>
+        <div class="reading-info">
+          <p class="reading-title">content-strategy-06-audience-research-methods.md</p>
+          <p class="reading-desc">Audience research prompt workflow</p>
+        </div>
+      </div>
+      <div class="reading-item">
+        <span class="reading-badge">ALG Library</span>
+        <div class="reading-info">
+          <p class="reading-title">positioning-assessment.md</p>
+          <p class="reading-desc">12-question B2B positioning self-assessment</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Assessment ── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="assessment-callout reveal">
+      <div>
+        <p>Module 06 Assessment</p>
+        <p class="sub">Test your understanding — 6 questions for this module</p>
+      </div>
+      <a href="../assessments/index.html" class="btn btn-primary">Take Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Module Navigation ── -->
+<nav class="module-nav" aria-label="Module navigation">
+  <a href="05.html">
+    <span>←</span>
+    <span>
+      <span class="prev-label">Previous</span><br>
+      Module 05
+    </span>
+  </a>
+  <a href="07.html">
+    <span>
+      <span class="next-label">Next</span><br>
+      Module 07
+    </span>
+    <span>→</span>
+  </a>
+</nav>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../assets/growthx-logo-dark.svg" alt="" width="96" height="16" />
+      <span>&copy; 2026 GrowthX</span>
+    </div>
+    <div class="footer-links">
+      <a href="../index.html">Hub</a>
+      <a href="../system/index.html">Landing Page</a>
+      <a href="https://growthx.ai" target="_blank" rel="noopener noreferrer">growthx.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var nodes = document.querySelectorAll('.reveal');
+  if (!window.IntersectionObserver) {
+    nodes.forEach(function (el) { el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+    });
+  }, { root: null, rootMargin: '0px 0px -48px 0px', threshold: 0.08 });
+  nodes.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
