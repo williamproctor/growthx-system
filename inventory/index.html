@@ -470,6 +470,91 @@
     gap: 20px;
   }
 }
+
+/* Clip play button */
+.clip-play-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  color: var(--gold);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+.clip-play-btn:hover {
+  background: var(--gold);
+  color: var(--bg, #080A0D);
+  border-color: var(--gold);
+  transform: scale(1.15);
+}
+
+/* Video modal */
+.clip-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+  padding: 24px;
+}
+.clip-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+.clip-modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: #0a0a0a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  transform: scale(0.92);
+  transition: transform 0.25s;
+}
+.clip-modal-overlay.open .clip-modal {
+  transform: scale(1);
+}
+.clip-modal video {
+  display: block;
+  width: 100%;
+  max-height: 80vh;
+  background: #000;
+}
+.clip-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  backdrop-filter: blur(4px);
+}
+.clip-modal-close:hover {
+  background: rgba(255,255,255,0.25);
+}
 </style>
 </head>
 <body>
@@ -834,7 +919,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">1</td>
@@ -843,6 +929,7 @@
         <td>~3m</td>
         <td>The "why": buyer behavior shift, channels saturating, first sales call happens inside AI answers</td>
         <td style="text-align:right; color:var(--green);">4.0 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-01/01-buyer-behavior-shift.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -851,6 +938,7 @@
         <td>~4m</td>
         <td>The philosophy: value-first, iterate fast, build in public, compound via systems. Named framework with four pillars</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-01/02-value-first-philosophy.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">3</td>
@@ -859,6 +947,7 @@
         <td>~3m</td>
         <td>The model: sphere of influence (core → platforms → reputation), concentric layers you can control</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-01/03-sphere-of-influence-model.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -879,7 +968,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--essential);">1</td>
@@ -888,6 +978,7 @@
         <td>~11m</td>
         <td>How AI engines work: 3 layers (pre-training 60-82%, retrieval, post-training preferences), content flywheel, freshness decay (30d = 3.2x fewer), "websites control 82% of training data and 100% of retrieval"</td>
         <td style="text-align:right; color:var(--essential);">4.7 ESSENTIAL</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-02/01-how-ai-engines-work.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -896,6 +987,7 @@
         <td>~3.5m</td>
         <td>Jason's "four ground truths": everything long-tail + personal, refresh more often, better distribution, AI converging with value not SEO. <em style="color:var(--text-dim);">Trim: cut Marcel's overlapping intro (0:25:17–0:28:33)</em></td>
         <td style="text-align:right; color:var(--amber);">3.3 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-02/02-four-ground-truths.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">3</td>
@@ -904,6 +996,7 @@
         <td>~7.5m</td>
         <td>Technical AEO + Authority: schema metadata (73% top-10 have it, 88% of sites don't), LLMs.txt, MCP servers, digital PR, E-E-A-T, unstructured mentions</td>
         <td style="text-align:right; color:var(--green);">4.3 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-02/03-technical-aeo-authority.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -924,7 +1017,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">1</td>
@@ -933,6 +1027,7 @@
         <td>~8.5m</td>
         <td>"Context is everything" — 25 context nodes across 4 categories (company/product/audience/market), LLM context window limitations, buyer question mapping, portfolio strategy</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-03/01-context-is-everything.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -941,6 +1036,7 @@
         <td>~5m</td>
         <td>Audience-first deep-dive: job description, daily reality, JTBD, deliverables, KPIs, promotion/firing triggers, emotional mapping (fears, trust builders/killers)</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-03/02-audience-first-deep-dive.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">3</td>
@@ -949,6 +1045,7 @@
         <td>~8m</td>
         <td>Full content strategy walkthrough: research/audit → discovery → artifacts (company context, audience personas, writing guidelines). <em style="color:var(--text-dim);">Trim: cut live Perplexity demo after 0:40:00</em></td>
         <td style="text-align:right; color:var(--amber);">3.3 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-03/03-content-strategy-walkthrough.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">4</td>
@@ -957,6 +1054,7 @@
         <td>~5m</td>
         <td>Topic mapping: 3 angles (competitive mind-share, audience JTBD, solution enablement), knowledge graph per persona. <em style="color:var(--text-dim);">Trim: cut Semrush/tagging walkthrough after 1:17:20</em></td>
         <td style="text-align:right; color:var(--amber);">3.3 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-03/04-topic-mapping.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -977,7 +1075,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--essential);">1</td>
@@ -986,6 +1085,7 @@
         <td>~3.75m</td>
         <td>Why AI content fails: LLM snapshots, hallucination rates, "unbriefed freelancer" analogy, RAG as the fix. Perfect cold-open hook</td>
         <td style="text-align:right; color:var(--essential);">5.0 ESSENTIAL</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-04/01-why-ai-content-fails.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -994,6 +1094,7 @@
         <td>~7m</td>
         <td>Live one-shot vs context-rich demo: bare prompt → 40-50% quality, full artifacts → dramatically better. "It wasn't about the prompt — it was about the quality of the context"</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-04/02-one-shot-vs-context-demo.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">3</td>
@@ -1002,6 +1103,7 @@
         <td>~3.5m</td>
         <td>Writing guidelines as quality artifact: adjective spectrum exercise, good/bad example pairs, brand voice calibration. Cursor rules / claude.md analogy</td>
         <td style="text-align:right; color:var(--green);">4.0 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-04/03-writing-guidelines-artifact.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">4</td>
@@ -1010,6 +1112,7 @@
         <td>~4m</td>
         <td>Augment Code "inception" case study: deep-context content didn't just get cited — it <em>changed the AI conversation itself</em>. Quality creates sustained citation</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-04/04-augment-code-inception-case-study.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">5</td>
@@ -1018,6 +1121,7 @@
         <td>~10m</td>
         <td>5-component framework: context artifacts, examples of good, decomposition, process blueprint, expert-in-the-loop piloting. Lovable template build as concrete demo</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-04/05-five-component-framework.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -1038,7 +1142,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">1</td>
@@ -1047,6 +1152,7 @@
         <td>~6m</td>
         <td>The "why": buyer behavior shift, 15-20 min AI sessions, AI traffic converts 3-5x, Ramp citation example. "Your first sales call happens inside an AI answer"</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/01-buyer-behavior-ai-sales-call.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -1055,6 +1161,7 @@
         <td>~7m</td>
         <td>Deepening the urgency: 3B daily AI users, 15-70% click disappearance, 4x LLM referral value, paid channel saturation. Hopeful close: quality of traffic is higher</td>
         <td style="text-align:right; color:var(--green);">4.0 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/02-urgency-data-click-disappearance.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--essential);">3</td>
@@ -1063,6 +1170,7 @@
         <td>~3.5m</td>
         <td>4-pillar AEO maturity model: Content (keywords→answers), Technical (on-page→schema), Authority (backlinks→mentions), Measurement (ranking→share-of-voice). Entirely verbal, perfect standalone framework</td>
         <td style="text-align:right; color:var(--essential);">5.0 ESSENTIAL</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/03-four-pillar-aeo-maturity-model.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">4</td>
@@ -1071,6 +1179,7 @@
         <td>~10m</td>
         <td>AEO definition + PRAI framework: Presence/Reputation/Alignment/Influence. Brand survey analogy, 3 audiences (buyers, AI engines, training bots)</td>
         <td style="text-align:right; color:var(--green);">4.0 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/04-prai-framework.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">5</td>
@@ -1079,6 +1188,7 @@
         <td>~5.5m</td>
         <td>Credibility proof: Webflow first-party data — 0% → 42% LLM traffic in 1 year, 6x conversion rate, hallucinated citations problem. "88% of websites haven't implemented schema yet"</td>
         <td style="text-align:right; color:var(--green);">4.3 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/05-webflow-credibility-proof.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">6</td>
@@ -1087,6 +1197,7 @@
         <td>~4.5m</td>
         <td>Marcel reinforces: AI answers as first sales call, content quality bar (credible/comprehensive/fresh at scale), CMS as foundation</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-05/06-marcel-ai-answers-synthesis.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -1107,7 +1218,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--essential);">1</td>
@@ -1116,6 +1228,7 @@
         <td>~3.5m</td>
         <td>Full Shaping Loop walkthrough: FLIP / SPREAD / ARTICULATE / CHISEL / RE-ANCHOR with before/after examples. "Context rot" stat (17-35% degradation after 10 turns). Polished, scripted, zero screen dependency</td>
         <td style="text-align:right; color:var(--essential);">5.0 ESSENTIAL</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-06/01-shaping-loop-walkthrough.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--essential);">2</td>
@@ -1124,6 +1237,7 @@
         <td>~2m</td>
         <td>Context artifacts as RAG inputs: positioning docs, customer quotes, competitor analysis. "Output isn't generic anymore — it references your actual differentiators." $1.2B→$11B market data</td>
         <td style="text-align:right; color:var(--essential);">4.7 ESSENTIAL</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-06/02-context-artifacts-as-rag-inputs.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -1144,7 +1258,8 @@
         <td style="width:16%;">Timestamps</td>
         <td style="width:6%;">Dur.</td>
         <td>Description</td>
-        <td style="width:14%; text-align:right;">Score</td>
+        <td style="width:12%; text-align:right;">Score</td>
+        <td style="width:4%;"></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">1</td>
@@ -1153,6 +1268,7 @@
         <td>~5m</td>
         <td>"What to measure first": leading vs lagging indicators, the tracking cascade (index → impression → click → engagement → conversion). "Don't start with conversions — it's a lagging indicator"</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-07/01-leading-vs-lagging-indicators.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">2</td>
@@ -1161,6 +1277,7 @@
         <td>~6m</td>
         <td>PRAI as measurement framework: Presence (consistency across engines), Reputation (market reality vs AI reality), Alignment (messaging accuracy), Influence (source control). "Websites control 82% of training data and 100% of retrieval"</td>
         <td style="text-align:right; color:var(--green);">3.7 HIGH</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-07/02-prai-measurement-framework.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">3</td>
@@ -1169,6 +1286,7 @@
         <td>~2.5m</td>
         <td>Measurement maturity progression: keyword ranking → ad-hoc mention checking → systematic measurement → share-of-voice + sentiment. "95% of ChatGPT citations &lt; 10 months old"</td>
         <td style="text-align:right; color:var(--amber);">3.3 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-07/03-measurement-maturity-progression.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">4</td>
@@ -1177,6 +1295,7 @@
         <td>~3.5m</td>
         <td>Composite scoring: visibility + position + sentiment + consistency + cross-engine. Citation rate by vendor, four-quadrant market analysis, Amazon catalog investment analogy</td>
         <td style="text-align:right; color:var(--amber);">3.0 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-07/04-composite-scoring.mp4" title="Play clip">&#9654;</button></td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:10px 0; font-family:var(--mono); color:var(--gold);">5</td>
@@ -1185,6 +1304,7 @@
         <td>~3m</td>
         <td>Connecting measurement to action: good-fit/bad-fit × high-intent/low-intent 2×2 framework. Deepgram 80% response rate from doc page visitors</td>
         <td style="text-align:right; color:var(--amber);">3.3 MED</td>
+        <td style="text-align:center;"><button class="clip-play-btn" data-clip="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/module-07/05-measurement-to-action.mp4" title="Play clip">&#9654;</button></td>
       </tr>
     </table>
     <div style="background:var(--surface-2); border-radius:6px; padding:12px; margin-top:8px; font-size:12px; color:var(--text-dim);">
@@ -1353,6 +1473,50 @@
     </div>
   </div>
 </footer>
+
+<!-- Clip video modal -->
+<div class="clip-modal-overlay" id="clipOverlay">
+  <div class="clip-modal">
+    <button class="clip-modal-close" id="clipClose" aria-label="Close">&times;</button>
+    <video id="clipVideo" controls preload="none"></video>
+  </div>
+</div>
+
+<script>
+(function() {
+  var overlay = document.getElementById('clipOverlay');
+  var video = document.getElementById('clipVideo');
+  var closeBtn = document.getElementById('clipClose');
+
+  function openClip(url) {
+    video.src = url;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    video.play();
+  }
+
+  function closeClip() {
+    overlay.classList.remove('open');
+    video.pause();
+    video.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.clip-play-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      openClip(this.getAttribute('data-clip'));
+    });
+  });
+
+  closeBtn.addEventListener('click', closeClip);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeClip();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeClip();
+  });
+})();
+</script>
 
 </body>
 </html>
