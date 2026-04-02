@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1200px;
+  height: 630px;
+  background: #080A0D;
+  font-family: 'Inter', -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.card {
+  width: 1200px;
+  height: 630px;
+  padding: 80px 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle at top right, rgba(184,146,47,0.12), transparent 70%);
+  pointer-events: none;
+}
+.badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b8922f;
+  margin-bottom: 32px;
+}
+h1 {
+  font-size: 72px;
+  font-weight: 700;
+  color: #F1EEE9;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+h1 span {
+  color: #b8922f;
+}
+p {
+  font-size: 24px;
+  font-weight: 420;
+  color: #b0ada8;
+  line-height: 1.4;
+  max-width: 700px;
+}
+.footer {
+  position: absolute;
+  bottom: 60px;
+  left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.footer span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b6b6b;
+  letter-spacing: 0.02em;
+}
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #b8922f, #d4a843, #b8922f);
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+  <div class="badge">The GrowthX System</div>
+  <h1>Master AI-Led<br>Growth<span>.</span></h1>
+  <p>7 modules of frameworks, mental models, and first principles that teach you how to win in the AI era.</p>
+  <div class="footer">
+    <span>growthx.ai</span>
+  </div>
+  <div class="line"></div>
+</div>
+</body>
+</html>
