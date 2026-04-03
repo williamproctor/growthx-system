@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Module 02: AI Visibility Playbook — The GrowthX System</title>
-<meta name="description" content="How AI engines actually work, the four ground truths of AI search, and the technical AEO foundations that make you visible to machines.">
+<meta name="description" content="How AI engines decide what to cite, the four ground truths of AI search, and the technical AEO work that gets your site into AI answers.">
 <script src="../theme.js"></script>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <meta property="og:image" content="https://pub-0ecfe34e9a4a41dfa8a92bb569890cbe.r2.dev/assets/og-image.png">
@@ -363,7 +363,7 @@
 <header class="module-header">
   <p class="module-overline reveal">Module 02</p>
   <h1 class="reveal reveal-d1">AI Visibility Playbook</h1>
-  <p class="module-header-desc reveal reveal-d2">How AI engines actually discover and cite your content — from pre-training data to retrieval to authority signals — and the technical foundations that make you visible to machines.</p>
+  <p class="module-header-desc reveal reveal-d2">How AI engines decide what to cite, the three layers that control whether you show up, and the technical AEO work that gets your site into AI answers.</p>
   <div class="module-meta-bar reveal reveal-d3">
     <div class="module-meta-item">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -382,7 +382,7 @@
   <div class="written-content reveal">
     <p>Most people treat AI answers like magic. They type a question, get an answer, and never think about where it came from. But if you want to influence what AI says about your company, you need to understand the machinery underneath. It's not magic. <strong>It's infrastructure.</strong> And infrastructure can be shaped.</p>
 
-    <p>Three layers determine whether you show up in an AI answer. The first is <strong>pre-training</strong> — the massive data ingestion that happens before a model is released. Between 60% and 82% of that training data comes from crawled web pages. Your website, your blog posts, your documentation. That's the base layer of everything the model "knows." The second layer is <strong>real-time retrieval</strong> — when engines like Perplexity or ChatGPT with browsing pull fresh pages at query time. Here, 100% of what they surface comes from live web pages. The third layer is <strong>post-training preferences</strong> — RLHF, human feedback loops that teach the model which sources to trust and how to rank competing answers. Each layer has different rules. Each layer can be influenced differently.</p>
+    <p>Three layers determine whether you show up in an AI answer. The first is <strong>pre-training</strong> — the massive data ingestion that happens before a model is released. Between 60% and 82% of that training data comes from crawled web pages. Your website, your blog posts, your documentation. That's the base layer of everything the model "knows." The second layer is <strong>real-time retrieval</strong> — when engines like Perplexity or ChatGPT with browsing pull fresh pages at query time. Here, 100% of what they surface comes from live web pages. The third layer is <strong>post-training preferences</strong> — RLHF, human feedback loops that teach the model which sources to trust and how to rank competing answers. Each layer plays by different rules, and each one gives you a different lever to pull.</p>
   </div>
 
   <div class="mermaid-wrap reveal">
@@ -443,7 +443,7 @@ graph TD
 
   <!-- ── Paragraph 5 ── -->
   <div class="written-content reveal">
-    <p>Freshness is the other lever people underestimate. The data is stark: <strong>content older than 30 days gets 3.2x fewer AI citations.</strong> This isn't optional maintenance you get around to when you have spare bandwidth. It's the difference between being cited and being forgotten. AI engines have a strong recency bias — especially the retrieval layer — and content that hasn't been updated signals "possibly outdated" to the ranking algorithms. A simple freshness pass — new data points, updated examples, refreshed dates — can triple your citation rate.</p>
+    <p>Freshness is the other lever people underestimate. The data is stark: <strong>content older than 30 days gets 3.2x fewer AI citations.</strong> That's not a "nice to have when the team has bandwidth" metric. That's a cliff. AI engines, especially the retrieval layer, treat stale content as suspect. Pages that haven't been touched in months quietly drop out of citation pools. The fix is almost boring: swap in a recent stat, update an example, refresh the publish date. Do that every few weeks and your citation rate can triple.</p>
   </div>
 
   <!-- ── Clip 03: Technical AEO + Authority Signals ── -->
@@ -462,7 +462,7 @@ graph TD
 
   <!-- ── Paragraphs 6–7 ── -->
   <div class="written-content reveal">
-    <p>We frame all of this through four dimensions we call <strong>PRAI: Presence, Reputation, Alignment, Influence.</strong> Think of it like a brand survey, except the respondent is an AI engine. Does the model know you exist? (Presence.) Does it position you correctly against competitors? (Reputation.) Does it describe you the way you'd describe yourself? (Alignment.) Can you actually change what it says? (Influence.) Measure all four, and you have a clear picture of where your AI visibility stands — and what to fix first.</p>
+    <p>We frame all of this through four dimensions we call <strong>PRAI: Presence, Reputation, Alignment, Influence.</strong> Think of it like a brand survey, except the respondent is an AI engine. Does the model know you exist? (Presence.) Does it position you correctly against competitors? (Reputation.) Does it describe you the way you'd describe yourself? (Alignment.) Can you actually change what it says? (Influence.) Measure all four and you know exactly where you're strong, where you're invisible, and what to fix first.</p>
   </div>
 
   <div class="mermaid-wrap reveal">
@@ -476,7 +476,7 @@ graph LR
   </div>
 
   <div class="written-content reveal">
-    <p>This is the foundation. Every module after this one — content strategy, quality systems, distribution — builds on understanding how these engines work. Get this wrong and everything downstream is guesswork. Get it right and you're working with the infrastructure instead of against it.</p>
+    <p>Everything in the modules ahead, content strategy, quality systems, distribution, assumes you understand how these engines work. Skip this and you're optimizing blind. Nail it and the rest of the system clicks into place.</p>
   </div>
 
   <!-- ── Key Takeaways ── -->
@@ -486,8 +486,8 @@ graph LR
       <li>60-82% of AI training data comes from crawled web pages. Your website is the atomic unit of AI visibility.</li>
       <li>Content older than 30 days gets 3.2× fewer citations. Freshness is a lever, not a nice-to-have.</li>
       <li>Over 50% of companies have technical issues blocking AI crawlers they don't even know about.</li>
-      <li>Schema markup, structured data, and technical SEO fundamentals matter more in the AI era, not less.</li>
-      <li>The visibility flywheel: quality content → gets crawled → gets cited → builds authority → compounds.</li>
+      <li>Schema markup and structured data aren't legacy SEO tactics. AI engines lean on them harder than Google ever did.</li>
+      <li>The visibility flywheel: quality content → gets crawled → gets cited → builds authority → earns more citations. It compounds, but only if you keep feeding it.</li>
     </ul>
   </div>
 
