@@ -120,6 +120,9 @@
   margin-right: auto;
   margin-bottom: 24px;
 }
+@media (max-width: 600px) {
+  .system-landing .hero.system-hero h1 br { display: none; }
+}
 .hero-subhead {
   font-size: clamp(16px, 2vw, 19px);
   color: var(--text-secondary);
@@ -1157,7 +1160,7 @@ a.module-card {
 <section class="hero system-hero">
   <div class="container">
     <div class="hero-label reveal">THE GROWTHX SYSTEM</div>
-    <h1 class="reveal reveal-delay-1">How the team behind 4 unicorns thinks about <span class="hero-highlight">AI-led growth.</span></h1>
+    <h1 class="reveal reveal-delay-1">How the team behind<br><span class="hero-highlight">4 unicorns</span> thinks about<br>AI-led growth.</h1>
     <p class="hero-subhead reveal reveal-delay-2">Not a course. Not a playbook. A system of thinking. The same one companies pay $10K–$60K/month to access.</p>
     <div class="hero-credibility reveal reveal-delay-2">
       <span class="hero-proof-chip"><span class="proof-num">4</span> unicorns built</span>
