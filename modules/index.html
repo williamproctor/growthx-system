@@ -96,8 +96,81 @@
   border-left-color: var(--accent-gold);
 }
 
+.diagnostic-banner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--accent-gold-soft);
+  border: 1px solid rgba(196, 154, 60, 0.25);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.diagnostic-banner:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 24px rgba(196, 154, 60, 0.1);
+}
+
+.diagnostic-banner-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  border: 1px solid var(--accent-gold);
+  border-radius: 50%;
+  color: var(--accent-gold);
+}
+
+.diagnostic-banner-body { flex: 1; min-width: 0; }
+
+.diagnostic-banner-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+
+.diagnostic-banner-title {
+  font-size: 17px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.diagnostic-banner-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+}
+
+.diagnostic-banner-arrow {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: var(--accent-gold);
+  transition: transform 0.2s;
+}
+
+.diagnostic-banner:hover .diagnostic-banner-arrow {
+  transform: translateX(3px);
+}
+
 @media (max-width: 768px) {
   .module-grid { grid-template-columns: 1fr; }
+  .diagnostic-banner { flex-direction: column; text-align: center; padding: 24px 20px; }
+  .diagnostic-banner-arrow { display: none; }
 }
 </style>
 </head>
@@ -151,6 +224,17 @@
 
 <section class="section">
   <div class="section-inner">
+    <a href="../quiz/index.html" class="diagnostic-banner reveal">
+      <div class="diagnostic-banner-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="diagnostic-banner-body">
+        <div class="diagnostic-banner-label">2-minute diagnostic</div>
+        <div class="diagnostic-banner-title">Not sure where to start?</div>
+        <div class="diagnostic-banner-desc">5 quick questions to find your biggest gap and get a personalized starting path. Module 01 is always first.</div>
+      </div>
+      <span class="diagnostic-banner-arrow">&rarr;</span>
+    </a>
     <div class="module-grid">
 
       <a href="01.html" class="module-card reveal">
