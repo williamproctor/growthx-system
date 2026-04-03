@@ -1,6 +1,6 @@
 # GrowthX System — Agent Handoff
 
-> **Last updated:** 2026-04-02
+> **Last updated:** 2026-04-03
 > **Purpose:** Everything a new agent needs to pick up exactly where the last one left off.
 
 ---
@@ -22,6 +22,7 @@ docs/growthx/                  ← repo root (williamproctor/growthx-system.git)
 ├── index.html                 ← Project hub (internal dashboard)
 ├── shared.css                 ← Design system (colors, typography, components)
 ├── theme.js                   ← Light/dark mode toggle
+├── nav.js                     ← Mobile hamburger menu + play overlays (loaded by all pages)
 ├── mermaid-init.js            ← Mermaid diagram renderer
 ├── assets/
 │   ├── favicon.svg            ← GrowthX "X" mark, centered
@@ -58,7 +59,7 @@ Every page has a global nav bar with the same 5 links:
 - **Inventory** → `inventory/index.html`
 - **Self-Assessments** → `assessments/index.html`
 
-Paths use `../` prefix when pages are in subdirectories. The dark/light theme toggle and (on the landing page only) a "Get the System →" CTA button follow the nav links.
+Paths use `../` prefix when pages are in subdirectories. The dark/light theme toggle and (on the landing page only) a "Get the System →" CTA button follow the nav links. On mobile (<768px), nav links collapse into a hamburger menu with a slide-out drawer. `aria-current="page"` marks the active link on both desktop and mobile.
 
 ---
 
@@ -99,7 +100,8 @@ The **inventory clip map** has play buttons (▶) on every row that open an inli
 ## Design System
 
 `shared.css` defines all variables. Key tokens:
-- `--accent-gold: #C49A3C` (gold accent, CTAs)
+- `--accent-gold: #C49A3C` (gold accent — single source of truth, dark mode auto-adapts to `#d4a843`)
+- `--accent-gold-soft` (transparent gold for backgrounds)
 - `--background` / `--foreground` swap on `data-theme="dark"`
 - `--font-mono: 'JetBrains Mono'`
 - `--radius: 8px`, `--radius-pill: 100px`
@@ -126,7 +128,19 @@ The inventory page uses `data-theme="dark"` on `<html>`.
 
 ---
 
-## What Was Done in This Session (2026-04-02, afternoon)
+## What Was Done (2026-04-03)
+
+1. **Mobile hamburger navigation** — Slide-out drawer with all 5 nav links, backdrop overlay, body scroll lock, Escape key support. Added to all 12 pages consistently.
+2. **Unified `--accent-gold` token** — Replaced 4 different hardcoded gold hex values (`#b8922f`, `#996f1a`, `#c9a44a`, `#d4a843`) with a single CSS variable in `shared.css` that auto-adapts for dark mode.
+3. **Shared `nav.js`** — Single script file loaded by all pages. Handles hamburger toggle, drawer theme toggle (properly wired), and auto-injected play overlays for inline video clips.
+4. **Accessibility** — `aria-current="page"` on active nav links, `:focus-visible` gold outlines on all interactive elements.
+5. **Play overlays** — Centered play button on inline video clips in module pages. Fades out on play, reappears on pause/end.
+6. **Landing page font fix** — Upgraded Google Fonts import from discrete weights to Inter variable axis.
+7. **Nav class aliases** — `.nav-divider`/`.nav-label` aliases added to `shared.css` for module page compatibility.
+8. **Closed cloud agent PR #4** — Patch approach was smart but had implementation issues; reimplemented cleanly.
+9. **Agent handoff system** — Pushed `HANDOFF.md` and `TEAM-MEMORY.md` to GitHub, added `.gitignore` to protect nested repo.
+
+## What Was Done (2026-04-02, afternoon)
 
 1. **SVG logo ticker** — Replaced text-only company names with real SVG brand logos from `growthx-landing-prototype` repo. Removed HashiCorp, Scale AI, Service Titan.
 2. **Global nav standardization** — All 12 pages now have identical nav: Hub, Landing Page, Modules, Inventory, Self-Assessments.
