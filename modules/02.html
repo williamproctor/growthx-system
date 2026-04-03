@@ -511,6 +511,21 @@ graph LR
 
 </div>
 
+  <!-- ── Ask a Question ── -->
+  <div class="ask-question reveal" style="margin-top: 40px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px;">
+    <h3 style="font-size: 18px; font-weight: 580; letter-spacing: -0.04em; margin-bottom: 6px; color: var(--text-primary);">Ask a question</h3>
+    <p style="font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.6; letter-spacing: -0.02em; margin-bottom: 20px;">Something didn't click, or curious how this applies to your situation? Ask Marcel and the team.</p>
+    <form class="ask-form" onsubmit="return handleAskQuestion(event, '02')">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <input type="text" name="askName" placeholder="Your name" required style="padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 14px; color: var(--text-primary); background: var(--card); outline: none;">
+        <input type="email" name="askEmail" placeholder="Your email" required style="padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 14px; color: var(--text-primary); background: var(--card); outline: none;">
+      </div>
+      <textarea name="askQuestion" placeholder="Your question..." required rows="3" style="width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: 14px; color: var(--text-primary); background: var(--card); outline: none; resize: vertical; margin-bottom: 12px;"></textarea>
+      <button type="submit" style="display: inline-flex; align-items: center; gap: 8px; background: var(--foreground); color: var(--background); border: none; border-radius: var(--radius-pill); padding: 10px 20px; font-size: 13px; font-weight: 580; letter-spacing: -0.02em; cursor: pointer; transition: opacity 0.2s;">Send your question <span>→</span></button>
+    </form>
+    <p class="ask-success" style="display: none; font-size: 14px; color: var(--accent-gold); font-weight: 500; margin-top: 12px;">Thanks! Your question has been submitted. Marcel and the team will follow up.</p>
+  </div>
+
 <!-- ── Bottom Nav ── -->
 <div class="module-nav">
   <a href="01.html">
@@ -559,5 +574,21 @@ graph LR
 })();
 </script>
 <script src="../nav.js"></script>
+<script>
+function handleAskQuestion(e, moduleId) {
+  e.preventDefault();
+  var form = e.target;
+  var data = {
+    module: moduleId,
+    name: form.askName.value,
+    email: form.askEmail.value,
+    question: form.askQuestion.value
+  };
+  console.log('Question submitted:', data);
+  form.style.display = 'none';
+  form.closest('.ask-question').querySelector('.ask-success').style.display = 'block';
+  return false;
+}
+</script>
 </body>
 </html>

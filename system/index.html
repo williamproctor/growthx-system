@@ -857,8 +857,7 @@ a.module-card {
   margin-bottom: 6px;
   letter-spacing: -0.03em;
 }
-.form-group input,
-.form-group select {
+.form-group input {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid var(--border);
@@ -873,18 +872,10 @@ a.module-card {
   -webkit-appearance: none;
   appearance: none;
 }
-.form-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23959595' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 40px;
-}
-.form-group input::placeholder,
-.form-group select:invalid {
+.form-group input::placeholder {
   color: var(--text-muted);
 }
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
   border-color: var(--accent-gold);
   box-shadow: 0 0 0 3px var(--accent-gold-soft);
 }
@@ -894,8 +885,7 @@ a.module-card {
   color: #b83226;
   margin-top: 4px;
 }
-.form-group.has-error input,
-.form-group.has-error select {
+.form-group.has-error input {
   border-color: #b83226;
 }
 .form-group.has-error .error-msg {
@@ -1371,9 +1361,9 @@ a.module-card {
         <div class="testimonial-note">Unsolicited feedback immediately after the session</div>
       </div>
       <div class="testimonial-card">
-        <div class="testimonial-quote">"Holy shit. This changed how I see everything."</div>
-        <div class="testimonial-attr">Workshop participant, post-session DM</div>
-        <div class="testimonial-note">After a 5-hour deep dive with Marcel</div>
+        <div class="testimonial-quote">"I sent this to my entire marketing team the same day. We rebuilt our content process around it within two weeks."</div>
+        <div class="testimonial-attr">Head of Content, Series B SaaS</div>
+        <div class="testimonial-note">Attended the $300 workshop. Brought the framework back to a 12-person team</div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-quote">"I've attended a lot of workshops. None of them gave me a system I could actually bring back to my team the next day."</div>
@@ -1459,27 +1449,6 @@ a.module-card {
           <input type="email" id="email" name="email" placeholder="jane@company.com" required>
           <span class="error-msg">Please enter a valid work email</span>
         </div>
-        <div class="form-group">
-          <label for="company">Company name</label>
-          <input type="text" id="company" name="company" placeholder="Acme Inc." required>
-          <span class="error-msg">Company name is required</span>
-        </div>
-        <div class="form-group">
-          <label for="role">Role / Title</label>
-          <input type="text" id="role" name="role" placeholder="VP of Marketing" required>
-          <span class="error-msg">Role is required</span>
-        </div>
-        <div class="form-group">
-          <label for="companySize">Company size</label>
-          <select id="companySize" name="companySize" required>
-            <option value="" disabled selected>Select company size</option>
-            <option value="1-50">1–50</option>
-            <option value="51-200">51–200</option>
-            <option value="201-1000">201–1,000</option>
-            <option value="1000+">1,000+</option>
-          </select>
-          <span class="error-msg">Please select your company size</span>
-        </div>
         <button type="submit" class="form-submit">Get Instant Access <span>→</span></button>
       </form>
       <div class="form-success" id="formSuccess">
@@ -1487,7 +1456,7 @@ a.module-card {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
         <h3>You're in.</h3>
-        <p>Check your inbox. The full GrowthX System is on its way. If you don't see it in a few minutes, check your spam folder.</p>
+        <p>Finding your starting point&hellip;</p>
       </div>
       <div class="form-footer">We respect your time. No spam. Unsubscribe anytime.</div>
     </div>
@@ -1604,8 +1573,6 @@ a.module-card {
 
     if (field.type === 'email') {
       valid = isValidEmail(field.value.trim());
-    } else if (field.tagName === 'SELECT') {
-      valid = field.value !== '';
     } else {
       valid = field.value.trim() !== '';
     }
@@ -1618,14 +1585,13 @@ a.module-card {
     return valid;
   }
 
-  form.querySelectorAll('input, select').forEach(function(field) {
+  form.querySelectorAll('input').forEach(function(field) {
     field.addEventListener('blur', function() { validateField(this); });
-    field.addEventListener('change', function() { validateField(this); });
   });
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    var fields = form.querySelectorAll('input, select');
+    var fields = form.querySelectorAll('input');
     var allValid = true;
 
     fields.forEach(function(field) {
@@ -1646,6 +1612,10 @@ a.module-card {
 
     form.style.display = 'none';
     success.style.display = 'block';
+
+    setTimeout(function() {
+      window.location.href = '../quiz/index.html';
+    }, 3000);
   });
 })();
 </script>
