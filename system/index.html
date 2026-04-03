@@ -99,12 +99,36 @@
   font-weight: 400;
 }
 .hero-credibility {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 40px;
+}
+.hero-proof-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-gold-soft);
+  border: 1px solid rgba(196, 154, 60, 0.18);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.hero-proof-chip .proof-num {
+  font-family: var(--font-sans);
+  font-weight: 680;
+  font-size: 13px;
+  letter-spacing: -0.03em;
+  color: var(--accent-gold);
+}
+[data-theme="dark"] .hero-proof-chip {
+  border-color: rgba(212, 168, 67, 0.2);
 }
 .hero-cta-wrap {
   margin-bottom: 12px;
@@ -977,7 +1001,11 @@ a.module-card {
     <div class="hero-label reveal">THE GROWTHX SYSTEM</div>
     <h1 class="reveal reveal-delay-1">Not a course. Not a playbook. <span class="hero-highlight">A system of principles.</span></h1>
     <p class="hero-subhead reveal reveal-delay-2">The mental models, frameworks, and first principles behind how GrowthX approaches AI-led growth — the same thinking 60+ companies pay $10K–$60K/month to access. Workflow before technology.</p>
-    <p class="hero-credibility reveal reveal-delay-2">From the team behind 4 unicorns · 500+ paid $300 to learn this live · 1,000+ registered for the last session</p>
+    <div class="hero-credibility reveal reveal-delay-2">
+      <span class="hero-proof-chip"><span class="proof-num">4</span> unicorns built</span>
+      <span class="hero-proof-chip"><span class="proof-num">500+</span> paid $300 to learn this live</span>
+      <span class="hero-proof-chip"><span class="proof-num">1,000+</span> registered for the last session</span>
+    </div>
     <div class="hero-cta-wrap reveal reveal-delay-3">
       <a href="#form" class="btn btn-primary">Get the System Free <span>→</span></a>
     </div>
