@@ -448,6 +448,104 @@
   color: var(--text-muted);
 }
 
+/* ── Results CTA ── */
+.results-next {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.results-next-heading {
+  font-size: 16px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.results-next-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.results-next-option {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.results-next-option:hover {
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-sm);
+}
+
+.results-next-option strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 580;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.results-next-option span {
+  font-size: 13px;
+  font-weight: 480;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.results-share-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.results-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent-gold);
+  background: var(--accent-gold-soft);
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.results-share-btn:hover { opacity: 0.8; }
+
+.results-share-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+.results-share-copied {
+  font-size: 12px;
+  color: var(--accent-gold);
+  font-weight: 480;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.results-share-copied.visible { opacity: 1; }
+
 /* ── Animations (reduced motion safe) ── */
 @media (prefers-reduced-motion: reduce) {
   .explanation {
@@ -887,6 +985,8 @@
         '</div>';
     }
 
+    var pct = Math.round((correct / total) * 100);
+
     var panel = document.getElementById("results-panel");
     panel.innerHTML =
       '<div class="results-card">' +
@@ -894,8 +994,43 @@
       '<div class="results-score">' + correct + '<span> / ' + total + '</span></div>' +
       '<div class="results-message">' + escapeHtml(message) + '</div>' +
       '<div class="results-breakdown">' + breakdownHtml + '</div>' +
+      '<div class="results-next">' +
+        '<div class="results-next-heading">What to do next</div>' +
+        '<div class="results-next-grid">' +
+          '<a href="../modules/index.html" class="results-next-option">' +
+            '<strong>Revisit the modules</strong>' +
+            '<span>Go deeper on the areas where you scored lowest.</span>' +
+          '</a>' +
+          '<a href="../system/index.html#form" class="results-next-option">' +
+            '<strong>Share with your team</strong>' +
+            '<span>Send them the system so everyone thinks the same way.</span>' +
+          '</a>' +
+          '<a href="https://growthx.ai" target="_blank" rel="noopener noreferrer" class="results-next-option" style="border-color: var(--accent-gold);">' +
+            '<strong>Talk to GrowthX</strong>' +
+            '<span>See what these principles look like applied to your company.</span>' +
+          '</a>' +
+        '</div>' +
+        '<div class="results-share-row">' +
+          '<button class="results-share-btn" id="shareScore">' +
+            '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+            'Share your score' +
+          '</button>' +
+          '<span class="results-share-copied" id="shareCopied">Copied to clipboard</span>' +
+        '</div>' +
+      '</div>' +
       '</div>';
     panel.classList.add("visible");
+
+    document.getElementById("shareScore").addEventListener("click", function () {
+      var text = "I scored " + correct + "/" + total + " (" + pct + "%) on the GrowthX System self-assessment. Test your AI-led growth thinking: " + window.location.origin + window.location.pathname;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          var el = document.getElementById("shareCopied");
+          el.classList.add("visible");
+          setTimeout(function () { el.classList.remove("visible"); }, 2500);
+        });
+      }
+    });
 
     var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!prefersReduced) {
