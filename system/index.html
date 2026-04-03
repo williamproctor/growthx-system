@@ -177,50 +177,70 @@
 .shift-section .section-header {
   max-width: 680px;
 }
-.shift-grid {
+.shift-columns {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-.shift-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
   border-radius: var(--radius);
-  padding: 36px 28px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.shift-col {
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
-.shift-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
+.shift-col--problem {
+  background: var(--card);
+}
+.shift-col--system {
+  background: var(--card);
+  border-left: 2px solid var(--accent-gold);
+}
+.shift-col-label {
   font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
-  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  width: fit-content;
+  letter-spacing: 1.5px;
 }
-.shift-pill--gold {
-  background: var(--accent-gold-soft);
-  color: var(--accent-gold);
+.shift-col--problem .shift-col-label { color: var(--text-muted); }
+.shift-col--system .shift-col-label { color: var(--accent-gold); }
+.shift-col h3 {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
 }
-.shift-pill--dark {
-  background: var(--foreground);
-  color: var(--background);
+.shift-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
-.shift-pill--green {
-  background: rgba(52, 168, 83, 0.1);
-  color: #2d8a4e;
-}
-.shift-card p {
+.shift-col li {
   font-size: 15px;
-  font-weight: 400;
   color: var(--text-secondary);
-  line-height: 1.65;
-  letter-spacing: -0.03em;
+  line-height: 1.55;
+  padding-left: 20px;
+  position: relative;
+}
+.shift-col--problem li::before {
+  content: '×';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.shift-col--system li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: 600;
 }
 
 /* What's inside */
@@ -658,8 +678,12 @@ a.module-card {
   .final-cta {
     padding: var(--section-pad-mobile) clamp(16px, 4vw, 32px);
   }
-  .shift-grid {
+  .shift-columns {
     grid-template-columns: 1fr;
+  }
+  .shift-col--system {
+    border-left: none;
+    border-top: 2px solid var(--accent-gold);
   }
   .modules-grid {
     grid-template-columns: 1fr;
@@ -763,22 +787,30 @@ a.module-card {
 <section class="shift-section">
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">THE SHIFT</div>
-      <h2>Your first sales call is now happening inside an AI answer</h2>
-      <p>The way buyers discover, evaluate, and choose software has fundamentally changed. AI doesn't just search — it answers. And those answers are replacing the first 60% of the buyer journey.</p>
+      <div class="section-label">WHY THIS EXISTS</div>
+      <h2>AI is answering your buyers' questions right now — with or without you</h2>
+      <p>Your buyers don't Google and click 10 blue links anymore. They ask AI. And AI gives one answer. If your company isn't that answer, someone else is.</p>
     </div>
-    <div class="shift-grid">
-      <div class="shift-card reveal">
-        <span class="shift-pill shift-pill--gold">Before</span>
-        <p>10 blue links, 30-second visits, low intent. You rented attention and prayed for clicks.</p>
+    <div class="shift-columns reveal">
+      <div class="shift-col shift-col--problem">
+        <div class="shift-col-label">Without a system</div>
+        <h3>Most companies are invisible to AI</h3>
+        <ul>
+          <li>AI doesn't cite you because your content wasn't built for it</li>
+          <li>Generic AI-written content gets ignored by the very models you're trying to reach</li>
+          <li>No one on your team knows what AI engines actually reward</li>
+          <li>You're spending more to get less — paid channels are saturating while organic AI traffic converts 3–7x higher</li>
+        </ul>
       </div>
-      <div class="shift-card reveal reveal-delay-1">
-        <span class="shift-pill shift-pill--dark">Now</span>
-        <p>AI answers, 15-minute sessions, deep intent. Your buyers are asking questions — and AI is answering for you (or without you).</p>
-      </div>
-      <div class="shift-card reveal reveal-delay-2">
-        <span class="shift-pill shift-pill--green">With the Right Thinking</span>
-        <p>You learn to become the answer. Content built on principles AI trusts. The kind of approach that drives 3–7x higher conversion than brand search.</p>
+      <div class="shift-col shift-col--system">
+        <div class="shift-col-label">What this system teaches</div>
+        <h3>How to become the answer AI gives</h3>
+        <ul>
+          <li>How AI engines decide what to cite — and how to build content they trust</li>
+          <li>The context-first approach that separates quality at scale from noise at scale</li>
+          <li>Frameworks for visibility, authority, and measurement across ChatGPT, Perplexity, and Gemini</li>
+          <li>The same principles behind 60+ companies paying $10K–$60K/month for this thinking</li>
+        </ul>
       </div>
     </div>
   </div>
